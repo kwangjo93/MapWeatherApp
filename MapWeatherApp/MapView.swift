@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 import MapKit
 
-struct ContentView: View {
+struct MapView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State private var defaultRegion = MapCameraPosition.region(
@@ -25,7 +25,7 @@ struct ContentView: View {
             let size = $0.size
             ZStack {
                 Map(position: $defaultRegion)
-                    .opacity(0.35)
+                    .opacity(0.3)
                     .disabled(true)
                     .ignoresSafeArea()
                 
@@ -102,5 +102,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MapView()
 }
