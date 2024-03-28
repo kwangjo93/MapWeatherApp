@@ -12,7 +12,7 @@ struct MainTabView: View {
         TabView {
             MapView()
                 .tabItem { Label("MapView", systemImage: "map") }
-            Text("Hello, World!")
+            LocationWeatherView()
                 .tabItem { Label("Location", systemImage: "location") }
         }
         .tint(.yellow)
