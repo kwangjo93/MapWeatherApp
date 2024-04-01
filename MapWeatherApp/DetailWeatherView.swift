@@ -17,17 +17,131 @@ struct DetailWeatherView: View {
                 ScrollView(.vertical) {
                     LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
                         Section {
+                            SunsetAndRiseView()
+                                .padding(.bottom, 8)
                             
+                            Text("오늘")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(5)
+                                .background(Color(.darkGray))
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding(.horizontal, 16)
+                            
+                            todaysWeatherView()
+                                .padding(.bottom, 16)
+                            
+                            sevenDaysWeatherView()
+                                .padding(.horizontal, 16)
                         } header: {
                             HeaderView(size)
                         }
                     }
-                    .padding(15)
                 }
                 .background(.gray.opacity(0.15))
             }
         }
     }
+    
+    @ViewBuilder
+    func SunsetAndRiseView() -> some View {
+        HStack(alignment: .center, spacing: 40) {
+            HStack(spacing: 5) {
+                Image(systemName: "sunrise.fill")
+                    .font(.system(size: 25))
+                    .foregroundStyle(.yellow)
+                Text("06 : 15")
+                    .font(.body)
+                    .fontWeight(.light)
+            }
+            
+            HStack(spacing: 5) {
+                Image(systemName: "sunset")
+                    .font(.system(size: 25))
+                    .foregroundStyle(.orange)
+                Text("19 : 20")
+                    .font(.body)
+                    .fontWeight(.light)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func todaysWeatherView() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .bottom, spacing: 10) {
+                ForEach(0...20, id: \.self) { weather in
+                    VStack(alignment: .center, spacing: 8) {
+                        Spacer()
+                        Spacer()
+                        
+                        Image(systemName: "person")
+                            .font(.title2)
+                        
+                        Text("\(weather) °")
+                            .font(.headline)
+                        
+                        Text("15 : 00")
+                            .font(.caption)
+                        Spacer()
+                    }
+                    .padding(8)
+                    .frame(height: 120 + CGFloat(weather * 5))
+                    .background(Color(.darkGray))
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+                    .overlay {
+                        Capsule()
+                            .stroke(lineWidth: 0.7)
+                            .foregroundStyle(Color(.black))
+                            .shadow(color: .black.opacity(0.5), radius: 5)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+    
+    @ViewBuilder
+    func sevenDaysWeatherView() -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .center) {
+                Spacer()
+                Text("최저 / 최고")
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .padding(.top)
+            }
+            .padding(.horizontal, 25)
+            
+            ForEach(0...10, id: \.self) { data in
+                DayWeatherView()
+                    .padding(.bottom, 5)
+            }
+        }
+        .padding(.bottom, 16)
+        .background(Color(.darkGray))
+        .foregroundStyle(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+    
+    @ViewBuilder
+    func DayWeatherView() -> some View {
+        HStack(alignment: .center) {
+            Text("오늘")
+                .font(.body)
+                .fontWeight(.medium)
+            Spacer()
+            Image(systemName: "person")
+                .font(.system(size: 25))
+            Spacer()
+            Text("10° / 21°")
+                .font(.title3)
+                .fontWeight(.heavy)
+        }
+        .padding(.horizontal, 20)
+    }
+    
     @ViewBuilder
     func HeaderView(_ size: CGSize) -> some View {
         HStack(spacing: 10) {
@@ -40,7 +154,7 @@ struct DetailWeatherView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(temperUnit ? .blue : .red)
                 }
-                .padding(.leading, 8)
+                .padding(.leading, 16)
                 
                 Spacer()
             }
@@ -80,7 +194,7 @@ struct DetailWeatherView: View {
                 }
                 Spacer()
             })
-            .padding(.trailing, 8)
+            .padding(.trailing, 16)
         }
         .padding(.bottom, 10)
         .background {
@@ -103,7 +217,6 @@ struct DetailWeatherView: View {
         let minY = proxy.frame(in: .scrollView).minY + topSafeArea.top
         return CGFloat(minY > 0 ? 0 : (-minY / 15))
     }
-    
     
     func headerScale(_ size: CGSize, proxy: GeometryProxy) -> CGFloat {
         let minY = proxy.frame(in: .scrollView).minY
