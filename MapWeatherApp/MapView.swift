@@ -14,7 +14,7 @@ struct MapView: View {
 
     @State private var defaultRegion = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 36.1867229,
+            center: CLLocationCoordinate2D(latitude: 35.5867229,
                                            longitude: 127.9095155),
             span: MKCoordinateSpan(latitudeDelta: 4.4,
                                    longitudeDelta: 4.4)

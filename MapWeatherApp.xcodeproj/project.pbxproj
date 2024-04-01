@@ -11,6 +11,8 @@
 		F95A74F12BB4626F006993F9 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F02BB4626F006993F9 /* TabView.swift */; };
 		F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F22BB46447006993F9 /* LocationWeatherView.swift */; };
 		F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */; };
+		F96C43B02BBA492B001D9678 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43AF2BBA492B001D9678 /* View.swift */; };
+		F96C43B52BBA664C001D9678 /* AddSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43B42BBA664C001D9678 /* AddSearch.swift */; };
 		F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */; };
 		F98D655D2BB1087900EC7A4F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655C2BB1087900EC7A4F /* MapView.swift */; };
 		F98D655F2BB1087900EC7A4F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655E2BB1087900EC7A4F /* Item.swift */; };
@@ -43,6 +45,8 @@
 		F95A74F02BB4626F006993F9 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		F95A74F22BB46447006993F9 /* LocationWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWeatherView.swift; sourceTree = "<group>"; };
 		F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherView.swift; sourceTree = "<group>"; };
+		F96C43AF2BBA492B001D9678 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		F96C43B42BBA664C001D9678 /* AddSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearch.swift; sourceTree = "<group>"; };
 		F98D65572BB1087900EC7A4F /* MapWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWeatherAppApp.swift; sourceTree = "<group>"; };
 		F98D655C2BB1087900EC7A4F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -89,6 +93,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		F96C43AE2BBA491E001D9678 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F96C43AF2BBA492B001D9678 /* View.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F96C43B32BBA6635001D9678 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				F96C43B42BBA664C001D9678 /* AddSearch.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		F98D654E2BB1087900EC7A4F = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +132,8 @@
 		F98D65592BB1087900EC7A4F /* MapWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				F96C43B32BBA6635001D9678 /* Helper */,
+				F96C43AE2BBA491E001D9678 /* Extensions */,
 				F950A7892BB54B9000B3B132 /* Model */,
 				F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */,
 				F95A74F22BB46447006993F9 /* LocationWeatherView.swift */,
@@ -280,10 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F96C43B02BBA492B001D9678 /* View.swift in Sources */,
 				F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */,
 				F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */,
 				F950A78D2BB54BBB00B3B132 /* MapAnnotation.swift in Sources */,
 				F98D655D2BB1087900EC7A4F /* MapView.swift in Sources */,
+				F96C43B52BBA664C001D9678 /* AddSearch.swift in Sources */,
 				F98D655F2BB1087900EC7A4F /* Item.swift in Sources */,
 				F95A74F12BB4626F006993F9 /* TabView.swift in Sources */,
 				F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */,
