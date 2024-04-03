@@ -14,8 +14,8 @@ final class WeatherUseCase {
         self.repository = repository
     }
     
-    func fetchWeather() async throws -> WeatherEntity {
-        let weather = try await repository.fetchWeather()
+    func fetchWeather(lat: Double, lon: Double) async throws -> WeatherEntity? {
+        let weather = await repository.fetchWeather(lat: lat, lon: lon)
         return weather
     }
 }
