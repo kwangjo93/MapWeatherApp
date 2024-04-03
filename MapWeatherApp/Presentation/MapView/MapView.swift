@@ -11,7 +11,7 @@ import MapKit
 
 struct MapView: View {
     @Environment(\.modelContext) private var modelContext
-
+    @ObservedObject var viewModel: MapViewModel
     @State private var defaultRegion = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 35.5867229,
@@ -19,7 +19,11 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 4.4,
                                    longitudeDelta: 4.4)
         ))
-
+    
+    init(viewModel: MapViewModel) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         GeometryReader {
             let size = $0.size
@@ -33,13 +37,13 @@ struct MapView: View {
                         Annotation("\(annotation.title)", coordinate: annotation.coordinate) {
                             Image(systemName: "person")
                                 .font(.system(size: 35))
-//                            WeatherImageView(imageUrl: <#T##String#>, temper: <#T##String#>)
+                            //                            WeatherImageView(imageUrl: <#T##String#>, temper: <#T##String#>)
                         }
                     }
                 }
                 .opacity(0.9)
-                    .disabled(true)
-                    .ignoresSafeArea()
+                .disabled(true)
+                .ignoresSafeArea()
             }
         }
         .onAppear {
@@ -60,5 +64,5 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView()
+    MapView(viewModel: .init(weatherUseCase: .init(repository: WeatherRepository())))
 }
