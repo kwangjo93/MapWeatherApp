@@ -7,12 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F9066DD42BBE543400ED7F97 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD32BBE543400ED7F97 /* Error.swift */; };
+		F9066DD62BBE6CB600ED7F97 /* MapPresentingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */; };
+		F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */; };
+		F935CAAC2BBD3A6B00C16CA0 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */; };
+		F935CAAE2BBD410300C16CA0 /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAD2BBD410300C16CA0 /* RegionModel.swift */; };
 		F950A78D2BB54BBB00B3B132 /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */; };
 		F95A74F12BB4626F006993F9 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F02BB4626F006993F9 /* TabView.swift */; };
 		F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F22BB46447006993F9 /* LocationWeatherView.swift */; };
 		F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */; };
 		F96C43B02BBA492B001D9678 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43AF2BBA492B001D9678 /* View.swift */; };
 		F96C43B52BBA664C001D9678 /* AddSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43B42BBA664C001D9678 /* AddSearch.swift */; };
+		F96C43B92BBAFB1A001D9678 /* API_Key.plist in Resources */ = {isa = PBXBuildFile; fileRef = F96C43B82BBAFB1A001D9678 /* API_Key.plist */; };
+		F96C43BC2BBAFD7D001D9678 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43BB2BBAFD7D001D9678 /* Bundle.swift */; };
+		F96C43BF2BBB0008001D9678 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43BE2BBB0008001D9678 /* DTOs.swift */; };
+		F96C43C22BBB9E5D001D9678 /* WeatherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43C12BBB9E5D001D9678 /* WeatherEntity.swift */; };
+		F96C43C42BBB9E8A001D9678 /* WeatherRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43C32BBB9E8A001D9678 /* WeatherRepository.swift */; };
+		F96C43C62BBBECF0001D9678 /* WeatherUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96C43C52BBBECF0001D9678 /* WeatherUseCase.swift */; };
 		F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */; };
 		F98D655D2BB1087900EC7A4F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655C2BB1087900EC7A4F /* MapView.swift */; };
 		F98D655F2BB1087900EC7A4F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98D655E2BB1087900EC7A4F /* Item.swift */; };
@@ -41,12 +52,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F9066DD32BBE543400ED7F97 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentingModel.swift; sourceTree = "<group>"; };
+		F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
+		F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		F935CAAD2BBD410300C16CA0 /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
 		F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
 		F95A74F02BB4626F006993F9 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		F95A74F22BB46447006993F9 /* LocationWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWeatherView.swift; sourceTree = "<group>"; };
 		F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherView.swift; sourceTree = "<group>"; };
 		F96C43AF2BBA492B001D9678 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		F96C43B42BBA664C001D9678 /* AddSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSearch.swift; sourceTree = "<group>"; };
+		F96C43B82BBAFB1A001D9678 /* API_Key.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = API_Key.plist; sourceTree = "<group>"; };
+		F96C43BB2BBAFD7D001D9678 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
+		F96C43BE2BBB0008001D9678 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
+		F96C43C12BBB9E5D001D9678 /* WeatherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherEntity.swift; sourceTree = "<group>"; };
+		F96C43C32BBB9E8A001D9678 /* WeatherRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepository.swift; sourceTree = "<group>"; };
+		F96C43C52BBBECF0001D9678 /* WeatherUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUseCase.swift; sourceTree = "<group>"; };
 		F98D65572BB1087900EC7A4F /* MapWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWeatherAppApp.swift; sourceTree = "<group>"; };
 		F98D655C2BB1087900EC7A4F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -85,6 +107,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F9066DD72BBE881B00ED7F97 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F98D655C2BB1087900EC7A4F /* MapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F9066DD82BBE881F00ED7F97 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F935CAAD2BBD410300C16CA0 /* RegionModel.swift */,
+				F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F9066DD92BBE882400ED7F97 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		F950A7892BB54B9000B3B132 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				F96C43AF2BBA492B001D9678 /* View.swift */,
+				F96C43BB2BBAFD7D001D9678 /* Bundle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -105,13 +153,72 @@
 			isa = PBXGroup;
 			children = (
 				F96C43B42BBA664C001D9678 /* AddSearch.swift */,
+				F9066DD32BBE543400ED7F97 /* Error.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		F96C43BA2BBAFD3E001D9678 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F96C43B82BBAFB1A001D9678 /* API_Key.plist */,
+				F98D65602BB1087A00EC7A4F /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		F96C43BD2BBAFFFD001D9678 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F96C43BE2BBB0008001D9678 /* DTOs.swift */,
+				F96C43C32BBB9E8A001D9678 /* WeatherRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F96C43C02BBB9E51001D9678 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F96C43C12BBB9E5D001D9678 /* WeatherEntity.swift */,
+				F96C43C52BBBECF0001D9678 /* WeatherUseCase.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F96C43C72BBBEEDB001D9678 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				F95A74F02BB4626F006993F9 /* TabView.swift */,
+				F96C43C82BBBEEE8001D9678 /* MapView */,
+				F96C43C92BBBEEEC001D9678 /* LocationView */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		F96C43C82BBBEEE8001D9678 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				F9066DD72BBE881B00ED7F97 /* View */,
+				F9066DD92BBE882400ED7F97 /* ViewModel */,
+				F9066DD82BBE881F00ED7F97 /* Model */,
+			);
+			path = MapView;
+			sourceTree = "<group>";
+		};
+		F96C43C92BBBEEEC001D9678 /* LocationView */ = {
+			isa = PBXGroup;
+			children = (
+				F95A74F22BB46447006993F9 /* LocationWeatherView.swift */,
+				F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */,
+				F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */,
+			);
+			path = LocationView;
 			sourceTree = "<group>";
 		};
 		F98D654E2BB1087900EC7A4F = {
 			isa = PBXGroup;
 			children = (
+				F96C43BA2BBAFD3E001D9678 /* Resource */,
 				F98D65592BB1087900EC7A4F /* MapWeatherApp */,
 				F98D656C2BB1087A00EC7A4F /* MapWeatherAppTests */,
 				F98D65762BB1087A00EC7A4F /* MapWeatherAppUITests */,
@@ -132,16 +239,14 @@
 		F98D65592BB1087900EC7A4F /* MapWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */,
+				F96C43C72BBBEEDB001D9678 /* Presentation */,
+				F96C43C02BBB9E51001D9678 /* Domain */,
+				F96C43BD2BBAFFFD001D9678 /* Data */,
 				F96C43B32BBA6635001D9678 /* Helper */,
 				F96C43AE2BBA491E001D9678 /* Extensions */,
 				F950A7892BB54B9000B3B132 /* Model */,
-				F98D655A2BB1087900EC7A4F /* MapWeatherAppApp.swift */,
-				F95A74F22BB46447006993F9 /* LocationWeatherView.swift */,
-				F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */,
-				F98D655C2BB1087900EC7A4F /* MapView.swift */,
-				F95A74F02BB4626F006993F9 /* TabView.swift */,
 				F98D655E2BB1087900EC7A4F /* Item.swift */,
-				F98D65602BB1087A00EC7A4F /* Assets.xcassets */,
 				F98D65622BB1087A00EC7A4F /* Preview Content */,
 			);
 			path = MapWeatherApp;
@@ -277,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F98D65642BB1087A00EC7A4F /* Preview Assets.xcassets in Resources */,
+				F96C43B92BBAFB1A001D9678 /* API_Key.plist in Resources */,
 				F98D65612BB1087A00EC7A4F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,14 +408,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9066DD62BBE6CB600ED7F97 /* MapPresentingModel.swift in Sources */,
+				F96C43C62BBBECF0001D9678 /* WeatherUseCase.swift in Sources */,
+				F96C43C42BBB9E8A001D9678 /* WeatherRepository.swift in Sources */,
 				F96C43B02BBA492B001D9678 /* View.swift in Sources */,
 				F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */,
 				F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */,
+				F96C43BC2BBAFD7D001D9678 /* Bundle.swift in Sources */,
+				F96C43BF2BBB0008001D9678 /* DTOs.swift in Sources */,
+				F935CAAC2BBD3A6B00C16CA0 /* MapViewModel.swift in Sources */,
 				F950A78D2BB54BBB00B3B132 /* MapAnnotation.swift in Sources */,
 				F98D655D2BB1087900EC7A4F /* MapView.swift in Sources */,
+				F96C43C22BBB9E5D001D9678 /* WeatherEntity.swift in Sources */,
 				F96C43B52BBA664C001D9678 /* AddSearch.swift in Sources */,
 				F98D655F2BB1087900EC7A4F /* Item.swift in Sources */,
+				F935CAAE2BBD410300C16CA0 /* RegionModel.swift in Sources */,
 				F95A74F12BB4626F006993F9 /* TabView.swift in Sources */,
+				F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */,
+				F9066DD42BBE543400ED7F97 /* Error.swift in Sources */,
 				F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
