@@ -15,10 +15,10 @@ struct MapView: View {
     @ObservedObject var viewModel: MapViewModel
     @State private var defaultRegion = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 35.5867229,
+            center: CLLocationCoordinate2D(latitude: 35.9867229,
                                            longitude: 127.9095155),
-            span: MKCoordinateSpan(latitudeDelta: 4.4,
-                                   longitudeDelta: 4.4)
+            span: MKCoordinateSpan(latitudeDelta: 4.5,
+                                   longitudeDelta: 4.5)
         ))
     
     init(viewModel: MapViewModel) {
@@ -29,14 +29,14 @@ struct MapView: View {
         ZStack {
             Map(position: $defaultRegion) {
                 ForEach(annotationItems) { annotation in
-                    Annotation("\(annotation.title)", coordinate: annotation.coordinate) {
+                    Annotation(coordinate: annotation.coordinate) {
                         ForEach(viewModel.regionWeather, id: \.id) { weather in
                             if weather.title == annotation.title && !viewModel.regionWeather.isEmpty {
                                 WeatherImageView(weather: weather)
                                     .padding(.bottom, 25)
                             }
                         }
-                    }
+                    } label: { }
                 }
             }
             .opacity(0.9)
@@ -54,15 +54,20 @@ struct MapView: View {
             viewModel.fetchRegionWeather()
         }
     }
-        
+    
     
     @ViewBuilder
     func WeatherImageView(weather: PresentingMap) -> some View {
-        VStack {
-            Text("\(weather.temp)")
-                .fontWeight(.semibold)
-            AsyncImage(url: weather.imageUrl, scale: 1.5)
+        
+        VStack(spacing: 0) {
+            AsyncImage(url: weather.imageUrl, scale: 2)
+            HStack(spacing: 5) {
+                Text(weather.title)
+                Text("\(weather.temp.makeCelsius())°")
+                    .fontWeight(.semibold)
+            }
         }
+        
     }
     
 }
