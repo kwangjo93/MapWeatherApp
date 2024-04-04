@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F9066DD42BBE543400ED7F97 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD32BBE543400ED7F97 /* Error.swift */; };
+		F9066DD62BBE6CB600ED7F97 /* MapPresentingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */; };
 		F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */; };
 		F935CAAC2BBD3A6B00C16CA0 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */; };
 		F935CAAE2BBD410300C16CA0 /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAD2BBD410300C16CA0 /* RegionModel.swift */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F9066DD32BBE543400ED7F97 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentingModel.swift; sourceTree = "<group>"; };
 		F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		F935CAAD2BBD410300C16CA0 /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
@@ -103,6 +107,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F9066DD72BBE881B00ED7F97 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F98D655C2BB1087900EC7A4F /* MapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F9066DD82BBE881F00ED7F97 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F935CAAD2BBD410300C16CA0 /* RegionModel.swift */,
+				F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F9066DD92BBE882400ED7F97 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		F950A7892BB54B9000B3B132 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				F96C43B42BBA664C001D9678 /* AddSearch.swift */,
+				F9066DD32BBE543400ED7F97 /* Error.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -168,9 +198,9 @@
 		F96C43C82BBBEEE8001D9678 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
-				F98D655C2BB1087900EC7A4F /* MapView.swift */,
-				F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */,
-				F935CAAD2BBD410300C16CA0 /* RegionModel.swift */,
+				F9066DD72BBE881B00ED7F97 /* View */,
+				F9066DD92BBE882400ED7F97 /* ViewModel */,
+				F9066DD82BBE881F00ED7F97 /* Model */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -378,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9066DD62BBE6CB600ED7F97 /* MapPresentingModel.swift in Sources */,
 				F96C43C62BBBECF0001D9678 /* WeatherUseCase.swift in Sources */,
 				F96C43C42BBB9E8A001D9678 /* WeatherRepository.swift in Sources */,
 				F96C43B02BBA492B001D9678 /* View.swift in Sources */,
@@ -394,6 +425,7 @@
 				F935CAAE2BBD410300C16CA0 /* RegionModel.swift in Sources */,
 				F95A74F12BB4626F006993F9 /* TabView.swift in Sources */,
 				F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */,
+				F9066DD42BBE543400ED7F97 /* Error.swift in Sources */,
 				F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

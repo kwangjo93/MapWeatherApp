@@ -52,7 +52,6 @@ struct Clouds: Codable {
 }
 
 struct Sys: Codable {
-    let type, id: Int
     let country: String
     let sunrise, sunset: Int
 }
@@ -74,7 +73,8 @@ struct Coord: Codable {
 
 extension WeatherResponse {
     func toEntity() -> WeatherEntity {
-        return WeatherEntity(lat: coord.lat,
+        return WeatherEntity(title: "",
+                             lat: coord.lat,
                              lon: coord.lon,
                              description: weather[0].description,
                              icon: weather[0].icon,

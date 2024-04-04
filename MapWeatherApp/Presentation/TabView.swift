@@ -26,13 +26,7 @@ struct MainTabView: View {
         TabView {
             MapView(viewModel: mapViewModel)
                 .tabItem { Label("MapView", systemImage: "map") }
-                .task {
-                    do {
-                       try await mapViewModel.fetchRegionWeather()
-                    } catch {
-                        print(error)
-                    }
-                }
+              
             LocationWeatherView(viewModel: lcoationViewModel)
                 .tabItem { Label("Location", systemImage: "location") }
         }

@@ -14,8 +14,13 @@ final class WeatherUseCase {
         self.repository = repository
     }
     
-    func fetchWeather(lat: Double, lon: Double) async throws -> WeatherEntity? {
-        let weather = await repository.fetchWeather(lat: lat, lon: lon)
+    func loadUrl(imageId: String) -> URL {
+        guard let imageUrl = URL(string: "https://openweathermap.org/img/wn/\(imageId)@2x.png") else { return URL(fileURLWithPath: "") }
+        return imageUrl
+    }
+    
+    func fetchWeather(lat: Double, lon: Double) async throws -> WeatherEntity {
+        let weather = try await repository.fetchWeather(lat: lat, lon: lon)
         return weather
     }
 }

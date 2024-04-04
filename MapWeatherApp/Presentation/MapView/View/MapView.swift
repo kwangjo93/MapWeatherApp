@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import MapKit
+import Combine
 
 struct MapView: View {
     @Environment(\.modelContext) private var modelContext
@@ -25,39 +26,41 @@ struct MapView: View {
     }
     
     var body: some View {
-        GeometryReader {
-            let size = $0.size
-            ZStack {
-                VStack {
-                    
-                }
-                
-                Map(position: $defaultRegion) {
-                    ForEach(annotationItems) { annotation in
-                        Annotation("\(annotation.title)", coordinate: annotation.coordinate) {
-                            Image(systemName: "person")
-                                .font(.system(size: 35))
-                            //                            WeatherImageView(imageUrl: <#T##String#>, temper: <#T##String#>)
+        ZStack {
+            Map(position: $defaultRegion) {
+                ForEach(annotationItems) { annotation in
+                    Annotation("\(annotation.title)", coordinate: annotation.coordinate) {
+                        ForEach(viewModel.regionWeather, id: \.id) { weather in
+                            if weather.title == annotation.title && !viewModel.regionWeather.isEmpty {
+                                WeatherImageView(weather: weather)
+                            }
                         }
                     }
                 }
-                .opacity(0.9)
-                .disabled(true)
-                .ignoresSafeArea()
+            }
+            .opacity(0.9)
+            .disabled(true)
+            .ignoresSafeArea()
+            
+            VStack {
+                //날짜
             }
         }
         .onAppear {
             // 위치 묻기
         }
+        .task {
+            viewModel.fetchRegionWeather()
+        }
     }
+        
     
     @ViewBuilder
-    func WeatherImageView(imageUrl: String, temper: String) -> some View {
+    func WeatherImageView(weather: PresentingMap) -> some View {
         VStack {
-            Image(imageUrl)
-                .font(.system(size: 35))
-            Text(temper)
+            Text("\(weather.temp)")
                 .fontWeight(.semibold)
+            AsyncImage(url: weather.imageUrl)
         }
     }
     

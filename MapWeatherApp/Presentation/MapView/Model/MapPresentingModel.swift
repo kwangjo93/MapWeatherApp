@@ -1,18 +1,19 @@
 //
-//  WeatherEntity.swift
+//  MapPresentingModel.swift
 //  MapWeatherApp
 //
-//  Created by 천광조 on 4/2/24.
+//  Created by 천광조 on 4/4/24.
 //
 
 import Foundation
 
-struct WeatherEntity {
+struct PresentingMap: Identifiable {
+    var id: UUID = .init()
     let title: String
     let lat: Double
     let lon: Double
     let description: String
-    let icon: String
+    let imageUrl: URL
     let dt: Int
     let temp: Double
     let tempMin: Double
