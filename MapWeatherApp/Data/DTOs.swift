@@ -72,8 +72,8 @@ struct Coord: Codable {
 }
 
 extension WeatherResponse {
-    func toEntity() -> WeatherEntity {
-        return WeatherEntity(title: "",
+    func toEntity(title: String) -> WeatherEntity {
+        return WeatherEntity(title: title,
                              lat: coord.lat,
                              lon: coord.lon,
                              description: weather[0].description,

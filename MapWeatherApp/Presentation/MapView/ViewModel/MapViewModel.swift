@@ -44,7 +44,7 @@ extension MapViewModel {
             do {
                 var fetchedWeathers: [PresentingMap] = []
                 for region in regionLatAndLon {
-                    let weatherEntities = try await weatherUseCase.fetchWeather(lat: region.lat, lon: region.lon)
+                    let weatherEntities = try await weatherUseCase.fetchWeather(title: region.title, lat: region.lat, lon: region.lon)
                     let presentingMap = PresentingMap(title: weatherEntities.title,
                                                       lat: weatherEntities.lat,
                                                       lon: weatherEntities.lon,

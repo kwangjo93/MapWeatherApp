@@ -33,6 +33,7 @@ struct MapView: View {
                         ForEach(viewModel.regionWeather, id: \.id) { weather in
                             if weather.title == annotation.title && !viewModel.regionWeather.isEmpty {
                                 WeatherImageView(weather: weather)
+                                    .padding(.bottom, 25)
                             }
                         }
                     }
@@ -60,7 +61,7 @@ struct MapView: View {
         VStack {
             Text("\(weather.temp)")
                 .fontWeight(.semibold)
-            AsyncImage(url: weather.imageUrl)
+            AsyncImage(url: weather.imageUrl, scale: 1.5)
         }
     }
     

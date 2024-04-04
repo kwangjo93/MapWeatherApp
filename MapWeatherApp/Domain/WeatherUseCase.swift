@@ -19,8 +19,8 @@ final class WeatherUseCase {
         return imageUrl
     }
     
-    func fetchWeather(lat: Double, lon: Double) async throws -> WeatherEntity {
-        let weather = try await repository.fetchWeather(lat: lat, lon: lon)
+    func fetchWeather(title: String, lat: Double, lon: Double) async throws -> WeatherEntity {
+        let weather = try await repository.fetchWeather(title: title, lat: lat, lon: lon)
         return weather
     }
 }

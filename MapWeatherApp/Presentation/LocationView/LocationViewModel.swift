@@ -16,9 +16,9 @@ final class LocationViewModel: ObservableObject {
         self.weatherUseCase = weatherUseCase
     }
     
-    func fetchWeather(lat: Double, lon: Double) async throws {
+    func fetchWeather(title: String, lat: Double, lon: Double) async throws {
         do {
-            let weatherEntities = try await weatherUseCase.fetchWeather(lat: lat, lon: lon)
+            let weatherEntities = try await weatherUseCase.fetchWeather(title: title, lat: lat, lon: lon)
             weather.append(weatherEntities)
         } catch {
             self.errorMessage = "ViewModel Error 발생"

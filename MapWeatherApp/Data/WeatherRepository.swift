@@ -8,7 +8,7 @@
 import Foundation
 
 struct WeatherRepository {
-    func fetchWeather(lat: Double, lon: Double) async throws -> WeatherEntity {
+    func fetchWeather(title: String, lat: Double, lon: Double) async throws -> WeatherEntity {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(Bundle.main.apiKey)&lang=kr") else {
             throw HttpError.invalidURL
         }
@@ -16,7 +16,7 @@ struct WeatherRepository {
         do {
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
             let weatherResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
-            return weatherResponse.toEntity()
+            return weatherResponse.toEntity(title: title)
         } catch {
             throw HttpError.jsonParseError(error)
         }
