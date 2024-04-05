@@ -30,7 +30,7 @@ struct MainTabView: View {
             LocationWeatherView(viewModel: lcoationViewModel)
                 .tabItem { Label("Location", systemImage: "location") }
         }
-        .tint(.yellow)
+        .tint(.black)
     }
 }
 

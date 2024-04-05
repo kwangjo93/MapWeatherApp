@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import MapKit
 import Combine
+import CoreLocation
 
 struct MapView: View {
     @Environment(\.modelContext) private var modelContext
@@ -21,7 +22,6 @@ struct MapView: View {
                                    longitudeDelta: 4.5)
         ))
     @State var temperUnit = true
-    
     init(viewModel: MapViewModel) {
         self.viewModel = viewModel
     }
@@ -37,27 +37,27 @@ struct MapView: View {
                                     .padding(.bottom, 25)
                             }
                         }
-                    } label: { }
+                    } label: {}
                 }
             }
             .opacity(0.9)
             .disabled(true)
             .ignoresSafeArea()
-            
             HeaderView()
         }
         .onAppear {
-            // 위치 묻기
+            Task {
+                await askLocationAuthorization()
+            }
         }
-//        .task {
-//            viewModel.fetchRegionWeather()
-//        }
+        //        .task {
+        //            viewModel.fetchRegionWeather()
+        //        }
     }
     
     
     @ViewBuilder
     func WeatherImageView(weather: PresentingMap) -> some View {
-        
         VStack(spacing: 0) {
             AsyncImage(url: weather.imageUrl, scale: 2)
             HStack(spacing: 5) {
@@ -66,7 +66,6 @@ struct MapView: View {
                     .fontWeight(.semibold)
             }
         }
-        
     }
     
     @ViewBuilder
@@ -113,12 +112,35 @@ struct MapView: View {
             HStack(spacing: 15) {
                 Text("날씨 불러오는 중")
                 ProgressView()
+                    .foregroundColor(.black)
             }
             
         } else {
             Text("\(viewModel.regionWeather[0].dt.changedTime)")
                 .font(.title2)
                 .fontWeight(.semibold)
+        }
+    }
+    
+    func askLocationAuthorization() async {
+        let locationManager = CLLocationManager()
+        let authorizationStatus = locationManager.authorizationStatus
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            DispatchQueue.main.async {
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }
+        case .authorizedAlways:
+            break
+        case .authorizedWhenInUse:
+            break
+        @unknown default:
+            break
         }
     }
 }
