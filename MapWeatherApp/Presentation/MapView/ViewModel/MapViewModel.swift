@@ -10,6 +10,7 @@ import Foundation
 class MapViewModel: ObservableObject {
     @Published private(set) var regionWeather: [PresentingMap] = []
     @Published private(set) var errorMessage: String = ""
+    @Published var isUpdating = false
     private let weatherUseCase: WeatherUseCase
     
     private let regionLatAndLon: [RegionModel] = [
@@ -61,6 +62,7 @@ extension MapViewModel {
                     fetchedWeathers.append(presentingMap)
                 }
                     self.regionWeather = fetchedWeathers
+                isUpdating.toggle()
             } catch {
                 DispatchQueue.main.async {
                     self.errorMessage = "ViewModel Error 발생"
