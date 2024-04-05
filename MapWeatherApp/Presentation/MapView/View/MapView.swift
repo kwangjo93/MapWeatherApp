@@ -14,6 +14,9 @@ import CoreLocation
 struct MapView: View {
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var viewModel: MapViewModel
+    @State private var selectedLat: Double = 0
+    @State private var selectedLon: Double = 0
+    @State private var isSelect: Bool = false
     @State private var defaultRegion = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 35.9867229,
@@ -22,12 +25,18 @@ struct MapView: View {
                                    longitudeDelta: 4.5)
         ))
     @State var temperUnit = true
+    
     init(viewModel: MapViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
         ZStack(alignment: .top) {
+            StaticMap(viewModel: viewModel,
+                      selectedLat: $selectedLat,
+                      selectedLon: $selectedLon,
+                      isSelect: $isSelect)
+                .opacity(0.1)
             Map(position: $defaultRegion) {
                 ForEach(annotationItems) { annotation in
                     Annotation(coordinate: annotation.coordinate) {
