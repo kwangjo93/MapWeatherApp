@@ -10,4 +10,5 @@ import SwiftUI
 enum AddAndSearch {
     case add
     case search
+    case none
 }

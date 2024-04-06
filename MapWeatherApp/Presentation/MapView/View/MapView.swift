@@ -31,37 +31,51 @@ struct MapView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            StaticMap(viewModel: viewModel,
-                      selectedLat: $selectedLat,
-                      selectedLon: $selectedLon,
-                      isSelect: $isSelect)
+        NavigationStack {
+            ZStack(alignment: .top) {
+                StaticMap(viewModel: viewModel,
+                          selectedLat: $selectedLat,
+                          selectedLon: $selectedLon,
+                          isSelect: $isSelect)
                 .opacity(0.1)
-            Map(position: $defaultRegion) {
-                ForEach(annotationItems) { annotation in
-                    Annotation(coordinate: annotation.coordinate) {
-                        ForEach(viewModel.regionWeather, id: \.id) { weather in
-                            if weather.title == annotation.title && !viewModel.regionWeather.isEmpty {
-                                WeatherImageView(weather: weather)
-                                    .padding(.bottom, 25)
+                Map(position: $defaultRegion) {
+                    ForEach(annotationItems) { annotation in
+                        Annotation(coordinate: annotation.coordinate) {
+                            ForEach(viewModel.regionWeather, id: \.id) { weather in
+                                if weather.title == annotation.title && !viewModel.regionWeather.isEmpty {
+                                    WeatherImageView(weather: weather)
+                                        .padding(.bottom, 25)
+                                }
                             }
-                        }
-                    } label: {}
+                        } label: {}
+                    }
+                }
+                .opacity(0.9)
+                .disabled(true)
+                .ignoresSafeArea()
+                HeaderView()
+            }
+            .navigationDestination(isPresented: $isSelect) {
+                if let weather = viewModel.weather {
+                    DetailWeatherView(
+                        addAndSearch: .none,
+                        isSelect: $isSelect,
+                        weather: weather
+                    )
                 }
             }
-            .opacity(0.9)
-            .disabled(true)
-            .ignoresSafeArea()
-            HeaderView()
-        }
-        .onAppear {
-            Task {
-                await askLocationAuthorization()
+            .onAppear {
+                Task {
+                    await askLocationAuthorization()
+                }
+            }
+            .task {
+                viewModel.fetchRegionWeather()
+                if isSelect {
+                    viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
+                }
             }
         }
-        //        .task {
-        //            viewModel.fetchRegionWeather()
-        //        }
     }
     
     
@@ -157,3 +171,7 @@ struct MapView: View {
 #Preview {
     MapView(viewModel: .init(weatherUseCase: .init(repository: WeatherRepository())))
 }
+
+/// isSelect 값이 true가 되면 뷰 이동
+/// 네비게이션 스택 으로 화면 전환.
+/// 백 버튼 누르면 isSelect 값 false로

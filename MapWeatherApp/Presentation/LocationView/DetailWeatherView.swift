@@ -8,8 +8,21 @@
 import SwiftUI
 
 struct DetailWeatherView: View {
-    @State var addAndSearch: AddAndSearch = .add
     @State var temperUnit = true
+    @State var addAndSearch: AddAndSearch
+    @Binding var isSelect: Bool
+    @State var weather: PresentingMap
+
+    init(
+        addAndSearch: AddAndSearch,
+        isSelect: Binding<Bool>,
+        weather: PresentingMap
+    ) {
+        self.addAndSearch = addAndSearch
+        _isSelect = isSelect
+        self.weather = weather
+    }
+    
     var body: some View {
         GeometryReader {
             let size = $0.size
@@ -229,5 +242,20 @@ struct DetailWeatherView: View {
 }
 
 #Preview {
-    DetailWeatherView()
+    DetailWeatherView(addAndSearch: .add,
+                      isSelect: .constant(true),
+                      weather: PresentingMap(title: "광주",
+                                             lat: 33,
+                                             lon: 127,
+                                             description: "맑음",
+                                             imageUrl: URL(string: "")!,
+                                             dt: 1702392,
+                                             temp: 35,
+                                             tempMin: 35,
+                                             tempMax: 12,
+                                             humidity: 24,
+                                             cloud: 4,
+                                             sunrise: 173234,
+                                             sunset: 13266)
+    )
 }

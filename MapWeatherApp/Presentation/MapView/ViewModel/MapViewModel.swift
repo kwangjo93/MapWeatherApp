@@ -11,6 +11,7 @@ class MapViewModel: ObservableObject {
     @Published private(set) var regionWeather: [PresentingMap] = []
     @Published private(set) var errorMessage: String = ""
     @Published var isUpdating = false
+    @Published var weather: PresentingMap?
     private let weatherUseCase: WeatherUseCase
     
     private let regionLatAndLon: [RegionModel] = [
@@ -62,17 +63,54 @@ extension MapViewModel {
                     fetchedWeathers.append(presentingMap)
                 }
                     self.regionWeather = fetchedWeathers
-                isUpdating.toggle()
+                isUpdating = false
             } catch {
                 DispatchQueue.main.async {
-                    self.errorMessage = "ViewModel Error 발생"
+                    self.errorMessage = "fetchRegionWeather 발생"
                     print(error)
                 }
             }
         }
     }
+    
+    @MainActor
+    func fetchWeather(lat: Double, lon: Double) {
+        guard let regionTitle = findRegionTitle(lat: lat, lon: lon) else { return }
+        Task {
+            do {
+                let weatherEntities = try await weatherUseCase.fetchWeather(title: regionTitle, lat: lat, lon: lon)
+                let presentingMap = PresentingMap(title: weatherEntities.title,
+                                                  lat: weatherEntities.lat,
+                                                  lon: weatherEntities.lon,
+                                                  description: weatherEntities.description,
+                                                  imageUrl: weatherUseCase.loadUrl(imageId: weatherEntities.icon),
+                                                  dt: weatherEntities.dt,
+                                                  temp: weatherEntities.temp,
+                                                  tempMin: weatherEntities.tempMin,
+                                                  tempMax: weatherEntities.tempMax,
+                                                  humidity: weatherEntities.humidity,
+                                                  cloud: weatherEntities.cloud,
+                                                  sunrise: weatherEntities.sunrise,
+                                                  sunset: weatherEntities.sunset)
+                self.weather = presentingMap
+            } catch {
+                DispatchQueue.main.async {
+                    self.errorMessage = "fetchRegionWeather 발생"
+                    print(error)
+                }
+                throw error
+            }
+        }
+    }
+    
+    private func findRegionTitle(lat: Double, lon: Double) -> String? {
+        for region in regionLatAndLon {
+            if region.lat == lat && region.lon == lon {
+                return region.title
+            }
+        }
+        return nil
+    }
 
 }
 
-/// 데이터 통신은 완료 됬으나 통신 후에 데이터 연결이 안된다.
-/// 시간 변환 메서드
