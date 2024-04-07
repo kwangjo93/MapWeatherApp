@@ -12,6 +12,7 @@ class MapViewModel: ObservableObject {
     @Published private(set) var errorMessage: String = ""
     @Published var isUpdating = false
     @Published var weather: PresentingMap?
+    
     private let weatherUseCase: WeatherUseCase
     
     private let regionLatAndLon: [RegionModel] = [
@@ -62,7 +63,7 @@ extension MapViewModel {
                                                       sunset: weatherEntities.sunset)
                     fetchedWeathers.append(presentingMap)
                 }
-                    self.regionWeather = fetchedWeathers
+                self.regionWeather = fetchedWeathers
                 isUpdating = false
             } catch {
                 DispatchQueue.main.async {
@@ -72,45 +73,13 @@ extension MapViewModel {
             }
         }
     }
-    
-    @MainActor
     func fetchWeather(lat: Double, lon: Double) {
-        guard let regionTitle = findRegionTitle(lat: lat, lon: lon) else { return }
-        Task {
-            do {
-                let weatherEntities = try await weatherUseCase.fetchWeather(title: regionTitle, lat: lat, lon: lon)
-                let presentingMap = PresentingMap(title: weatherEntities.title,
-                                                  lat: weatherEntities.lat,
-                                                  lon: weatherEntities.lon,
-                                                  description: weatherEntities.description,
-                                                  imageUrl: weatherUseCase.loadUrl(imageId: weatherEntities.icon),
-                                                  dt: weatherEntities.dt,
-                                                  temp: weatherEntities.temp,
-                                                  tempMin: weatherEntities.tempMin,
-                                                  tempMax: weatherEntities.tempMax,
-                                                  humidity: weatherEntities.humidity,
-                                                  cloud: weatherEntities.cloud,
-                                                  sunrise: weatherEntities.sunrise,
-                                                  sunset: weatherEntities.sunset)
-                self.weather = presentingMap
-            } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = "fetchRegionWeather 발생"
-                    print(error)
-                }
-                throw error
-            }
-        }
-    }
-    
-    private func findRegionTitle(lat: Double, lon: Double) -> String? {
-        for region in regionLatAndLon {
+        
+        for region in regionWeather {
             if region.lat == lat && region.lon == lon {
-                return region.title
+                self.weather = region
             }
         }
-        return nil
     }
-
 }
 

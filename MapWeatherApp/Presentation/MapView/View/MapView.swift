@@ -69,11 +69,11 @@ struct MapView: View {
                     await askLocationAuthorization()
                 }
             }
+            .onChange(of: isSelect, { oldValue, newValue in
+                viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
+            })
             .task {
                 viewModel.fetchRegionWeather()
-                if isSelect {
-                    viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
-                }
             }
         }
     }
