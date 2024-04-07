@@ -24,14 +24,19 @@ struct MapWeatherAppApp: App {
     }()
 
     
-    var useCase: WeatherUseCase {
+    var weatherUseCase: WeatherUseCase {
         let repository = WeatherRepository()
         return WeatherUseCase(repository: repository)
     }
     
+    var forecastUseCase: ForecastUsecase {
+        let repository = ForecastRepository()
+        return ForecastUsecase(repository: repository)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MainTabView(useCase: useCase)
+            MainTabView(weatherUseCase: weatherUseCase, forecastUseCase: forecastUseCase)
         }
         .modelContainer(sharedModelContainer)
     }

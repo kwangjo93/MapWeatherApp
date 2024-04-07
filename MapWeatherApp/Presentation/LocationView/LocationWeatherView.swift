@@ -46,6 +46,8 @@ struct LocationWeatherView: View {
         viewModel: .init(
             weatherUseCase: .init(
                 repository: WeatherRepository()
+            ), forecastUseCase: .init(
+                repository: ForecastRepository()
             )
         )
     )

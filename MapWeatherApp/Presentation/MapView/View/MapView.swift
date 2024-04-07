@@ -169,7 +169,16 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView(viewModel: .init(weatherUseCase: .init(repository: WeatherRepository())))
+    MapView(
+        viewModel: .init(
+            weatherUseCase: .init(
+                repository: WeatherRepository()
+            ),
+            forecastUseCase: .init(
+                repository: ForecastRepository()
+            )
+        )
+    )
 }
 
 /// isSelect 값이 true가 되면 뷰 이동

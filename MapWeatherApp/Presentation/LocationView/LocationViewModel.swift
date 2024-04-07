@@ -11,9 +11,14 @@ final class LocationViewModel: ObservableObject {
     @Published private(set) var weather: [WeatherEntity] = []
     @Published private(set) var errorMessage: String = ""
     private let weatherUseCase: WeatherUseCase
+    private let forecastUseCase: ForecastUsecase
     
-    init(weatherUseCase: WeatherUseCase) {
+    init(
+        weatherUseCase: WeatherUseCase,
+        forecastUseCase: ForecastUsecase
+    ) {
         self.weatherUseCase = weatherUseCase
+        self.forecastUseCase = forecastUseCase
     }
     
     func fetchWeather(title: String, lat: Double, lon: Double) async throws {
