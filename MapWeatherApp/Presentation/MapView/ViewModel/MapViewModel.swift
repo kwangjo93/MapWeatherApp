@@ -15,6 +15,12 @@ class MapViewModel: ObservableObject {
     
     private let weatherUseCase: WeatherUseCase
     
+    init(
+        weatherUseCase: WeatherUseCase
+    ) {
+        self.weatherUseCase = weatherUseCase
+    }
+    
     private let regionLatAndLon: [RegionModel] = [
         RegionModel(title: "인천", lat: 37.5088, lon: 126.7219),
         RegionModel(title: "서울", lat: 37.5311, lon: 126.9814),
@@ -34,10 +40,6 @@ class MapViewModel: ObservableObject {
         RegionModel(title: "부산", lat: 35.1795543, lon: 129.0756416),
         RegionModel(title: "제주", lat: 33.4996213, lon: 126.5311884),
     ]
-    
-    init(weatherUseCase: WeatherUseCase) {
-        self.weatherUseCase = weatherUseCase
-    }
 }
 
 extension MapViewModel {

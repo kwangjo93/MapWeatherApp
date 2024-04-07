@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct MainTabView: View {
-    let useCase: WeatherUseCase
+    let weatherUseCase: WeatherUseCase
+    let forecastUseCase: ForecastUsecase
     
-    init(useCase: WeatherUseCase) {
-        self.useCase = useCase
+    init(
+        weatherUseCase: WeatherUseCase,
+        forecastUseCase: ForecastUsecase
+    ) {
+        self.weatherUseCase = weatherUseCase
+        self.forecastUseCase = forecastUseCase
     }
     
     var lcoationViewModel: LocationViewModel {
-        return LocationViewModel(weatherUseCase: useCase)
+        return LocationViewModel(weatherUseCase: weatherUseCase, forecastUseCase: forecastUseCase)
     }
     
     var mapViewModel: MapViewModel {
-        return MapViewModel(weatherUseCase: useCase)
+        return MapViewModel(weatherUseCase: weatherUseCase)
     }
     
     var body: some View {
@@ -36,5 +41,6 @@ struct MainTabView: View {
 
 
 #Preview {
-    MainTabView(useCase: .init(repository: WeatherRepository()))
+    MainTabView(weatherUseCase: .init(repository: .init()),
+                forecastUseCase: .init(repository: .init()))
 }
