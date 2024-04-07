@@ -14,14 +14,11 @@ class MapViewModel: ObservableObject {
     @Published var weather: PresentingMap?
     
     private let weatherUseCase: WeatherUseCase
-    private let forecastUseCase: ForecastUsecase
     
     init(
-        weatherUseCase: WeatherUseCase,
-        forecastUseCase: ForecastUsecase
+        weatherUseCase: WeatherUseCase
     ) {
         self.weatherUseCase = weatherUseCase
-        self.forecastUseCase = forecastUseCase
     }
     
     private let regionLatAndLon: [RegionModel] = [

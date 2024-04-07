@@ -24,7 +24,7 @@ struct MainTabView: View {
     }
     
     var mapViewModel: MapViewModel {
-        return MapViewModel(weatherUseCase: weatherUseCase, forecastUseCase: forecastUseCase)
+        return MapViewModel(weatherUseCase: weatherUseCase)
     }
     
     var body: some View {
