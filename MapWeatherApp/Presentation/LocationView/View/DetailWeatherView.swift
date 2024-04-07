@@ -157,27 +157,52 @@ struct DetailWeatherView: View {
     
     @ViewBuilder
     func HeaderView(_ size: CGSize, _ weather: PresentingMap) -> some View {
-        HStack(spacing: 10) {
-            VStack {
-                Button {
-                    temperUnit.toggle()
-                    print(weather)
-                } label: {
-                    Text(temperUnit ? "°C" : "°F")
-                        .font(.system(size: 25))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(temperUnit ? .blue : .red)
+        VStack {
+            VStack(spacing: 0) {
+                HStack() {
+                    if isSelect {
+                        Button {
+                            isSelect = false
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
+                                .font(.system(size: 30))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.black)
+                        }
+                    }
+                    
+                    Button {
+                        temperUnit.toggle()
+                        print(weather)
+                    } label: {
+                        Text(temperUnit ? "°C" : "°F")
+                            .font(.system(size: 30))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(temperUnit ? .blue : .red)
+                    }
+                    .padding(.leading, 16)
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        
+                    } label: {
+                        Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(width: 30, height: 30)
+                            .background(Color.black.gradient, in: .circle)
+                            .contentShape(.circle)
+                    }
                 }
-                .padding(.leading, 16)
+                .padding(.horizontal, 20)
                 
-                Spacer()
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .center, spacing: 10) {
                 Text(addAndSearch == .none ? weather.title : "dd")
                     .font(.title.bold())
+            }
+            
+            VStack(alignment: .center, spacing: 10) {
                 Text(temperUnit ? "\(weather.temp.makeCelsius())°" : "\(weather.temp.makeFahrenheit())°")
                     .font(.system(size: 40))
                     .fontWeight(.semibold)
@@ -191,28 +216,7 @@ struct DetailWeatherView: View {
                 }
                 .font(.system(size: 20))
             }
-            .visualEffect { content, geometryProxy in
-                content
-                    .scaleEffect(headerScale(size, proxy: geometryProxy), anchor: .topLeading)
-            }
-            
-            Spacer(minLength: 0)
-            
-            VStack(alignment: .leading, spacing: 5, content: {
-                NavigationLink {
-                    
-                } label: {
-                    Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(width: 25, height: 25)
-                        .background(Color.gray.gradient, in: .circle)
-                        .contentShape(.circle)
-                }
-                Spacer()
-            })
-            .padding(.trailing, 16)
+            .padding(.top, 3)
         }
         .padding(.bottom, 10)
         .background {
@@ -226,7 +230,6 @@ struct DetailWeatherView: View {
                 content
                     .opacity(headerBGOpacity(geometryProxy))
             }
-
             .padding(.top, -(topSafeArea.top + 15))
         }
     }
