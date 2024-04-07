@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		F9066DD42BBE543400ED7F97 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD32BBE543400ED7F97 /* Error.swift */; };
 		F9066DD62BBE6CB600ED7F97 /* MapPresentingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */; };
+		F9066DDB2BBEE69700ED7F97 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9066DDA2BBEE69700ED7F97 /* Double.swift */; };
+		F93011A92BBF919B00A0A30B /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93011A82BBF919B00A0A30B /* Int.swift */; };
 		F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */; };
 		F935CAAC2BBD3A6B00C16CA0 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */; };
 		F935CAAE2BBD410300C16CA0 /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935CAAD2BBD410300C16CA0 /* RegionModel.swift */; };
 		F950A78D2BB54BBB00B3B132 /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */; };
+		F95A2A1A2BBFE39B00BA25B8 /* StaticMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A2A192BBFE39B00BA25B8 /* StaticMap.swift */; };
 		F95A74F12BB4626F006993F9 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F02BB4626F006993F9 /* TabView.swift */; };
 		F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F22BB46447006993F9 /* LocationWeatherView.swift */; };
 		F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */; };
@@ -54,10 +57,13 @@
 /* Begin PBXFileReference section */
 		F9066DD32BBE543400ED7F97 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentingModel.swift; sourceTree = "<group>"; };
+		F9066DDA2BBEE69700ED7F97 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		F93011A82BBF919B00A0A30B /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		F935CAA92BBD29EE00C16CA0 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		F935CAAB2BBD3A6B00C16CA0 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		F935CAAD2BBD410300C16CA0 /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
 		F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
+		F95A2A192BBFE39B00BA25B8 /* StaticMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticMap.swift; sourceTree = "<group>"; };
 		F95A74F02BB4626F006993F9 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		F95A74F22BB46447006993F9 /* LocationWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWeatherView.swift; sourceTree = "<group>"; };
 		F95A74F42BB464F6006993F9 /* DetailWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherView.swift; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				F98D655C2BB1087900EC7A4F /* MapView.swift */,
+				F95A2A192BBFE39B00BA25B8 /* StaticMap.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -118,6 +125,7 @@
 		F9066DD82BBE881F00ED7F97 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */,
 				F935CAAD2BBD410300C16CA0 /* RegionModel.swift */,
 				F9066DD52BBE6CB600ED7F97 /* MapPresentingModel.swift */,
 			);
@@ -132,19 +140,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		F950A7892BB54B9000B3B132 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				F950A78C2BB54BBB00B3B132 /* MapAnnotation.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		F96C43AE2BBA491E001D9678 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				F96C43AF2BBA492B001D9678 /* View.swift */,
 				F96C43BB2BBAFD7D001D9678 /* Bundle.swift */,
+				F9066DDA2BBEE69700ED7F97 /* Double.swift */,
+				F93011A82BBF919B00A0A30B /* Int.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -245,7 +247,6 @@
 				F96C43BD2BBAFFFD001D9678 /* Data */,
 				F96C43B32BBA6635001D9678 /* Helper */,
 				F96C43AE2BBA491E001D9678 /* Extensions */,
-				F950A7892BB54B9000B3B132 /* Model */,
 				F98D655E2BB1087900EC7A4F /* Item.swift */,
 				F98D65622BB1087A00EC7A4F /* Preview Content */,
 			);
@@ -415,8 +416,10 @@
 				F95A74F52BB464F6006993F9 /* DetailWeatherView.swift in Sources */,
 				F95A74F32BB46447006993F9 /* LocationWeatherView.swift in Sources */,
 				F96C43BC2BBAFD7D001D9678 /* Bundle.swift in Sources */,
+				F93011A92BBF919B00A0A30B /* Int.swift in Sources */,
 				F96C43BF2BBB0008001D9678 /* DTOs.swift in Sources */,
 				F935CAAC2BBD3A6B00C16CA0 /* MapViewModel.swift in Sources */,
+				F95A2A1A2BBFE39B00BA25B8 /* StaticMap.swift in Sources */,
 				F950A78D2BB54BBB00B3B132 /* MapAnnotation.swift in Sources */,
 				F98D655D2BB1087900EC7A4F /* MapView.swift in Sources */,
 				F96C43C22BBB9E5D001D9678 /* WeatherEntity.swift in Sources */,
@@ -426,6 +429,7 @@
 				F95A74F12BB4626F006993F9 /* TabView.swift in Sources */,
 				F935CAAA2BBD29EE00C16CA0 /* LocationViewModel.swift in Sources */,
 				F9066DD42BBE543400ED7F97 /* Error.swift in Sources */,
+				F9066DDB2BBEE69700ED7F97 /* Double.swift in Sources */,
 				F98D655B2BB1087900EC7A4F /* MapWeatherAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,6 +597,7 @@
 				DEVELOPMENT_TEAM = 52TADTDD5Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 기반으로 날씨 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -622,6 +627,7 @@
 				DEVELOPMENT_TEAM = 52TADTDD5Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 기반으로 날씨 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

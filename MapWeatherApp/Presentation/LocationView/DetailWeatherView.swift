@@ -8,8 +8,21 @@
 import SwiftUI
 
 struct DetailWeatherView: View {
-    @State var addAndSearch: AddAndSearch = .add
     @State var temperUnit = true
+    @State var addAndSearch: AddAndSearch
+    @State var weather: PresentingMap
+    @Binding var isSelect: Bool
+
+    init(
+        addAndSearch: AddAndSearch,
+        isSelect: Binding<Bool>,
+        weather: PresentingMap
+    ) {
+        self.addAndSearch = addAndSearch
+        _isSelect = isSelect
+        self.weather = weather
+    }
+    
     var body: some View {
         GeometryReader {
             let size = $0.size
@@ -17,7 +30,7 @@ struct DetailWeatherView: View {
                 ScrollView(.vertical) {
                     LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
                         Section {
-                            SunsetAndRiseView()
+                            SunsetAndRiseView(weather)
                                 .padding(.bottom, 8)
                             
                             Text("오늘")
@@ -28,13 +41,13 @@ struct DetailWeatherView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .padding(.horizontal, 16)
                             
-                            todaysWeatherView()
+                            todaysWeathersView()
                                 .padding(.bottom, 16)
                             
                             sevenDaysWeatherView()
                                 .padding(.horizontal, 16)
                         } header: {
-                            HeaderView(size)
+                            HeaderView(size, weather)
                         }
                     }
                 }
@@ -44,13 +57,13 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func SunsetAndRiseView() -> some View {
+    func SunsetAndRiseView(_ weather: PresentingMap) -> some View {
         HStack(alignment: .center, spacing: 40) {
             HStack(spacing: 5) {
                 Image(systemName: "sunrise.fill")
                     .font(.system(size: 25))
                     .foregroundStyle(.yellow)
-                Text("06 : 15")
+                Text("\(weather.sunrise.sunriseTime)")
                     .font(.body)
                     .fontWeight(.light)
             }
@@ -59,7 +72,7 @@ struct DetailWeatherView: View {
                 Image(systemName: "sunset")
                     .font(.system(size: 25))
                     .foregroundStyle(.orange)
-                Text("19 : 20")
+                Text("\(weather.sunrise.sunsetTime)")
                     .font(.body)
                     .fontWeight(.light)
             }
@@ -67,7 +80,7 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func todaysWeatherView() -> some View {
+    func todaysWeathersView() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .bottom, spacing: 10) {
                 ForEach(0...20, id: \.self) { weather in
@@ -143,11 +156,12 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func HeaderView(_ size: CGSize) -> some View {
+    func HeaderView(_ size: CGSize, _ weather: PresentingMap) -> some View {
         HStack(spacing: 10) {
             VStack {
                 Button {
                     temperUnit.toggle()
+                    print(weather)
                 } label: {
                     Text(temperUnit ? "°C" : "°F")
                         .font(.system(size: 25))
@@ -162,14 +176,18 @@ struct DetailWeatherView: View {
             Spacer()
             
             VStack(alignment: .center, spacing: 10) {
-                Text("나의 위치")
+                Text(addAndSearch == .none ? weather.title : "dd")
                     .font(.title.bold())
-                Text(temperUnit ? "12°" : "55°")
+                Text(temperUnit ? "\(weather.temp.makeCelsius())°" : "\(weather.temp.makeFahrenheit())°")
                     .font(.system(size: 40))
                     .fontWeight(.semibold)
                 HStack(spacing: 30) {
-                    Text("최고 : 20°")
-                    Text("최저 : 5°")
+                    Text(temperUnit ?
+                         "최고 : \(weather.tempMax.makeCelsius())°" :
+                         "최고 : \(weather.tempMax.makeFahrenheit())°" )
+                    Text(temperUnit ?
+                         "최저 : \(weather.tempMin.makeCelsius())°" :
+                         "최저 : \(weather.tempMin.makeFahrenheit())°")
                 }
                 .font(.system(size: 20))
             }
@@ -229,5 +247,20 @@ struct DetailWeatherView: View {
 }
 
 #Preview {
-    DetailWeatherView()
+    DetailWeatherView(addAndSearch: .none,
+                      isSelect: .constant(true),
+                      weather: PresentingMap(title: "광주",
+                                             lat: 33,
+                                             lon: 127,
+                                             description: "맑음",
+                                             imageUrl: URL(string: "dddd")!,
+                                             dt: 1702392,
+                                             temp: 35,
+                                             tempMin: 35,
+                                             tempMax: 12,
+                                             humidity: 24,
+                                             cloud: 4,
+                                             sunrise: 173234,
+                                             sunset: 13266)
+    )
 }
