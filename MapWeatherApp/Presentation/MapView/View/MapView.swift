@@ -55,7 +55,7 @@ struct MapView: View {
                 .ignoresSafeArea()
                 HeaderView()
             }
-            .navigationDestination(isPresented: $isSelect) {
+            .fullScreenCover(isPresented: $isSelect, content: {
                 if let weather = viewModel.weather {
                     DetailWeatherView(
                         addAndSearch: .none,
@@ -63,7 +63,7 @@ struct MapView: View {
                         weather: weather
                     )
                 }
-            }
+                })
             .onAppear {
                 Task {
                     await askLocationAuthorization()
@@ -75,6 +75,7 @@ struct MapView: View {
             .task {
                 viewModel.fetchRegionWeather()
             }
+            
         }
     }
     
