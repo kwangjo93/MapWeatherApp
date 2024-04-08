@@ -11,6 +11,7 @@ struct DetailWeatherView: View {
     @State var temperUnit = true
     @State var addAndSearch: AddAndSearch
     @State var weather: PresentingMap
+    @State var isSearching: Bool = false
     @Binding var isSelect: Bool
     
     init(
@@ -184,12 +185,9 @@ struct DetailWeatherView: View {
                     
                     Spacer()
                     
-                    NavigationLink {
-                        if addAndSearch == .search {
-                            SearchBar()
-                                .transition(AnyTransition.opacity.animation(.easeInOut))
-                        }
-                    } label: {
+                    Button(action: {
+                        isSearching = true
+                    }) {
                         Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
                             .font(.title3)
                             .fontWeight(.semibold)
@@ -197,6 +195,9 @@ struct DetailWeatherView: View {
                             .frame(width: 30, height: 30)
                             .background(Color.black.gradient, in: .circle)
                             .contentShape(.circle)
+                    }
+                    .fullScreenCover(isPresented: $isSearching) {
+                        SearchBar(isSearching: $isSearching)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -212,10 +213,10 @@ struct DetailWeatherView: View {
                 HStack(spacing: 30) {
                     Text(temperUnit ?
                          "최고 : \(weather.tempMax.makeCelsius())°" :
-                         "최고 : \(weather.tempMax.makeFahrenheit())°" )
+                            "최고 : \(weather.tempMax.makeFahrenheit())°" )
                     Text(temperUnit ?
                          "최저 : \(weather.tempMin.makeCelsius())°" :
-                         "최저 : \(weather.tempMin.makeFahrenheit())°")
+                            "최저 : \(weather.tempMin.makeFahrenheit())°")
                 }
                 .font(.system(size: 20))
             }
@@ -226,7 +227,7 @@ struct DetailWeatherView: View {
             VStack(spacing: 0) {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    
+                
                 Divider()
             }
             .visualEffect { content, geometryProxy in
@@ -236,7 +237,7 @@ struct DetailWeatherView: View {
             .padding(.top, -(topSafeArea.top + 15))
         }
     }
-
+    
     func headerBGOpacity(_ proxy: GeometryProxy) -> CGFloat {
         let minY = proxy.frame(in: .scrollView).minY + topSafeArea.top
         return CGFloat(minY > 0 ? 0 : (-minY / 15))
