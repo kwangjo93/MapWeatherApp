@@ -12,7 +12,7 @@ struct DetailWeatherView: View {
     @State var addAndSearch: AddAndSearch
     @State var weather: PresentingMap
     @Binding var isSelect: Bool
-
+    
     init(
         addAndSearch: AddAndSearch,
         isSelect: Binding<Bool>,
@@ -185,7 +185,10 @@ struct DetailWeatherView: View {
                     Spacer()
                     
                     NavigationLink {
-                        
+                        if addAndSearch == .search {
+                            SearchBar()
+                                .transition(AnyTransition.opacity.animation(.easeInOut))
+                        }
                     } label: {
                         Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
                             .font(.title3)
@@ -250,7 +253,7 @@ struct DetailWeatherView: View {
 }
 
 #Preview {
-    DetailWeatherView(addAndSearch: .none,
+    DetailWeatherView(addAndSearch: .search,
                       isSelect: .constant(true),
                       weather: PresentingMap(title: "광주",
                                              lat: 33,

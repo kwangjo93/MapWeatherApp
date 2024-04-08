@@ -15,7 +15,7 @@ struct LocationWeatherView: View {
     }
     
     var body: some View {
-        DetailWeatherView(addAndSearch: .add,
+        DetailWeatherView(addAndSearch: .search,
                           isSelect: .constant(false),
                           weather: PresentingMap(title: "광주",
                                                  lat: 33,
