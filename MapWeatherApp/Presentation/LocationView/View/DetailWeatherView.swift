@@ -13,15 +13,18 @@ struct DetailWeatherView: View {
     @State var weather: PresentingMap
     @State var isSearching: Bool = false
     @Binding var isSelect: Bool
+    var forecast: PresentingForecast
     
     init(
         addAndSearch: AddAndSearch,
         isSelect: Binding<Bool>,
-        weather: PresentingMap
+        weather: PresentingMap,
+        forecast: PresentingForecast
     ) {
         self.addAndSearch = addAndSearch
         _isSelect = isSelect
         self.weather = weather
+        self.forecast = forecast
     }
     
     var body: some View {
@@ -73,7 +76,7 @@ struct DetailWeatherView: View {
                 Image(systemName: "sunset")
                     .font(.system(size: 25))
                     .foregroundStyle(.orange)
-                Text("\(weather.sunrise.sunsetTime)")
+                Text("\(weather.sunset.sunsetTime)")
                     .font(.body)
                     .fontWeight(.light)
             }
@@ -84,23 +87,23 @@ struct DetailWeatherView: View {
     func todaysWeathersView() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .bottom, spacing: 10) {
-                ForEach(0...20, id: \.self) { weather in
+                ForEach(forecast.forcasts, id: \.id) { forecast in
                     VStack(alignment: .center, spacing: 8) {
-                        Spacer()
-                        Spacer()
+                        Spacer().frame(height: forecast.temp.getTempHeight() * 2)
                         
-                        Image(systemName: "person")
-                            .font(.title2)
+                        AsyncImage(url: forecast.imageUrl, scale: 2)
                         
-                        Text("\(weather) °")
+                        Text(temperUnit ?
+                             "\(forecast.temp.makeCelsius()) °" :
+                             "\(forecast.temp.makeFahrenheit()) °")
                             .font(.headline)
                         
-                        Text("15 : 00")
+                        Text("\(forecast.dt.changedTime)")
                             .font(.caption)
-                        Spacer()
+                        Spacer().frame(height: 20)
                     }
                     .padding(8)
-                    .frame(height: 120 + CGFloat(weather * 5))
+                    .frame(height: 120 + (forecast.temp.getTempHeight() * 2))
                     .background(Color(.darkGray))
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
@@ -128,8 +131,8 @@ struct DetailWeatherView: View {
             }
             .padding(.horizontal, 25)
             
-            ForEach(0...10, id: \.self) { data in
-                DayWeatherView()
+            ForEach(forecast.forcasts, id: \.id) { weather in
+                DayWeatherView(weather)
                     .padding(.bottom, 5)
             }
         }
@@ -140,16 +143,18 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func DayWeatherView() -> some View {
+    func DayWeatherView(_ weather: Weathers) -> some View {
         HStack(alignment: .center) {
             Text("오늘")
                 .font(.body)
                 .fontWeight(.medium)
             Spacer()
-            Image(systemName: "person")
-                .font(.system(size: 25))
+            AsyncImage(url: weather.imageUrl, scale: 2)
             Spacer()
-            Text("10° / 21°")
+            Text(temperUnit ?
+                 "\(weather.tempMin.makeCelsius())° / \(weather.tempMax.makeCelsius())°" :
+                 "\(weather.tempMin.makeFahrenheit())° / \(weather.tempMax.makeFahrenheit())°")
+            
                 .font(.title3)
                 .fontWeight(.heavy)
         }
@@ -174,7 +179,6 @@ struct DetailWeatherView: View {
                     
                     Button {
                         temperUnit.toggle()
-                        print(weather)
                     } label: {
                         Text(temperUnit ? "°C" : "°F")
                             .font(.system(size: 30))
@@ -213,10 +217,10 @@ struct DetailWeatherView: View {
                 HStack(spacing: 30) {
                     Text(temperUnit ?
                          "최고 : \(weather.tempMax.makeCelsius())°" :
-                            "최고 : \(weather.tempMax.makeFahrenheit())°" )
+                         "최고 : \(weather.tempMax.makeFahrenheit())°" )
                     Text(temperUnit ?
                          "최저 : \(weather.tempMin.makeCelsius())°" :
-                            "최저 : \(weather.tempMin.makeFahrenheit())°")
+                         "최저 : \(weather.tempMin.makeFahrenheit())°")
                 }
                 .font(.system(size: 20))
             }
@@ -263,11 +267,86 @@ struct DetailWeatherView: View {
                                              imageUrl: URL(string: "dddd")!,
                                              dt: 1702392,
                                              temp: 35,
-                                             tempMin: 35,
-                                             tempMax: 12,
+                                             tempMin: 15,
+                                             tempMax: 25,
                                              humidity: 24,
                                              cloud: 4,
                                              sunrise: 173234,
-                                             sunset: 13266)
+                                             sunset: 13266),
+                      forecast: PresentingForecast(city: "인천",
+                                                   lat: 35.77,
+                                                   lon: 128.66,
+                                                   forcasts: [Weathers(dt: 1702932,
+                                                                       clouds: 0,
+                                                                       pop: 1,
+                                                                       temp: 20,
+                                                                       tempMin: 15,
+                                                                       tempMax: 34,
+                                                                       mainText: "main",
+                                                                       description: "descip",
+                                                                       imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                      ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 11,
+                                                                                  tempMin: 13,
+                                                                                  tempMax: 25,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 27,
+                                                                                  tempMin: 11,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 25,
+                                                                                  tempMin: 18,
+                                                                                  tempMax: 27,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 )
+                                                   ]
+                                                  )
     )
 }

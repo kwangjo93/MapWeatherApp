@@ -21,5 +21,9 @@ extension Double {
     func makeRounded() -> String {
         return String(format: "%.0f", self)
     }
+    
+    func getTempHeight() -> Double {
+       return self - 273.15
+    }
 }
 

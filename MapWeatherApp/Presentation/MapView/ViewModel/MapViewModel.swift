@@ -8,17 +8,20 @@
 import Foundation
 
 class MapViewModel: ObservableObject {
+    private let weatherUseCase: WeatherUseCase
+    private let forecastUseCase: ForecastUsecase
     @Published private(set) var regionWeather: [PresentingMap] = []
     @Published private(set) var errorMessage: String = ""
     @Published var isUpdating = false
     @Published var weather: PresentingMap?
-    
-    private let weatherUseCase: WeatherUseCase
+    @Published var forecast: PresentingForecast?
     
     init(
-        weatherUseCase: WeatherUseCase
+        weatherUseCase: WeatherUseCase,
+        forecastUseCase: ForecastUsecase
     ) {
         self.weatherUseCase = weatherUseCase
+        self.forecastUseCase = forecastUseCase
     }
     
     private let regionLatAndLon: [RegionModel] = [
@@ -80,6 +83,35 @@ extension MapViewModel {
         for region in regionWeather {
             if region.lat == lat && region.lon == lon {
                 self.weather = region
+            }
+        }
+    }
+    
+    @MainActor
+    func fetchForecast(lat: Double, lon: Double)  {
+        Task {
+            do {
+                let forecastEntities = try await forecastUseCase.fetchWeather(lat: lat, lon: lon)
+                let presentingForecast = PresentingForecast(city: forecastEntities.city,
+                                                            lat: forecastEntities.lat,
+                                                            lon: forecastEntities.lon,
+                                                            forcasts: forecastEntities.forcast.map{ weather -> Weathers in
+                    return Weathers(dt: weather.dt,
+                                    clouds: weather.clouds,
+                                    pop: weather.pop,
+                                    temp: weather.temp,
+                                    tempMin: weather.tempMin,
+                                    tempMax: weather.tempMax,
+                                    mainText: weather.main,
+                                    description: weather.description,
+                                    imageUrl: weatherUseCase.loadUrl(imageId: weather.icon))
+                })
+                self.forecast = presentingForecast
+            } catch {
+                DispatchQueue.main.async {
+                    self.errorMessage = "ViewModel Error 발생"
+                    print(error)
+                }
             }
         }
     }

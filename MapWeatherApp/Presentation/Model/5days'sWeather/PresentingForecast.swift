@@ -1,5 +1,5 @@
 //
-//  ForcastEntity.swift
+//  PresentingForecast.swift
 //  MapWeatherApp
 //
 //  Created by 천광조 on 4/7/24.
@@ -7,14 +7,15 @@
 
 import Foundation
 
-struct ForecastEntity: Identifiable {
+struct PresentingForecast: Identifiable  {
     let id: UUID = .init()
     let city: String
     let lat: Double
     let lon: Double
-    let forcast: [Forecast]
+    let forcasts: [Weathers]
 }
-struct Forecast: Identifiable {
+
+struct Weathers: Identifiable {
     let id: UUID = .init()
     let dt: Int
     let clouds: Int
@@ -22,7 +23,7 @@ struct Forecast: Identifiable {
     let temp: Double
     let tempMin: Double
     let tempMax: Double
-    let main: String
+    let mainText: String
     let description: String
-    let icon: String
+    let imageUrl: URL
 }

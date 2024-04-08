@@ -23,19 +23,20 @@ struct ForecastRepository {
     }
     
     func mockWeather() -> ForecastEntity {
-        return ForecastEntity(city: "인천",
-                              lat: 35.77,
-                              lon: 128.66,
-                              forcast: [Forecast(dt: 1702932,
-                                                 clouds: 0,
-                                                 pop: 1,
-                                                 weather: [Weathers(main: "맑음",
-                                                                    description: "쨍쨍",
-                                                                    icon: "dx35"
-                                                                   )
-                                                 ]
-                                                )
-                              ]
-        )
+        return ForecastEntity(
+            city: "인천",
+            lat: 35.77,
+            lon: 128.66,
+            forcast: [Forecast(
+                dt: 1702932,
+                clouds: 0,
+                pop: 1,
+                temp: 16,
+                tempMin: 21,
+                tempMax: 55,
+                main: "d",
+            description: "dd",
+            icon: "dd")
+            ])
     }
 }
