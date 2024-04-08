@@ -51,7 +51,7 @@ struct DetailWeatherView: View {
                             sevenDaysWeatherView()
                                 .padding(.horizontal, 16)
                         } header: {
-                            HeaderView(size, weather)
+                            HeaderView(size, weather, forecast: forecast.forcasts)
                         }
                     }
                 }
@@ -162,7 +162,7 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func HeaderView(_ size: CGSize, _ weather: PresentingMap) -> some View {
+    func HeaderView(_ size: CGSize, _ weather: PresentingMap, forecast: [Weathers]) -> some View {
         VStack {
             VStack(spacing: 0) {
                 HStack() {
@@ -216,11 +216,11 @@ struct DetailWeatherView: View {
                     .fontWeight(.semibold)
                 HStack(spacing: 30) {
                     Text(temperUnit ?
-                         "최고 : \(weather.tempMax.makeCelsius())°" :
-                         "최고 : \(weather.tempMax.makeFahrenheit())°" )
+                         "최고 : \(getTempMaxValue(forecast).makeCelsius())°" :
+                         "최고 : \(getTempMaxValue(forecast).makeFahrenheit())°" )
                     Text(temperUnit ?
-                         "최저 : \(weather.tempMin.makeCelsius())°" :
-                         "최저 : \(weather.tempMin.makeFahrenheit())°")
+                         "최저 : \(getTempMinValue(forecast).makeCelsius())°" :
+                         "최저 : \(getTempMinValue(forecast).makeFahrenheit())°")
                 }
                 .font(.system(size: 20))
             }
@@ -254,6 +254,32 @@ struct DetailWeatherView: View {
         let progress = minY / screenHeight
         let scale = (min(max(progress, 0), 1)) * 0.6
         return 1 + scale
+    }
+    
+    func getTempMaxValue(_ values: [Weathers]) -> Double {
+        guard let firstWeather = values.first else {
+               fatalError("값이 비어 있습니다.")
+           }
+        var maxTemp = firstWeather.tempMax
+        for weather in values {
+            if weather.tempMax > maxTemp {
+                maxTemp = weather.tempMax
+            }
+        }
+        return maxTemp
+    }
+    
+    func getTempMinValue(_ values: [Weathers]) -> Double {
+        guard let firstWeather = values.first else {
+               fatalError("값이 비어 있습니다.")
+           }
+        var minTemp = firstWeather.tempMin
+        for weather in values {
+            if weather.tempMin < minTemp {
+                minTemp = weather.tempMin
+            }
+        }
+        return minTemp
     }
 }
 
