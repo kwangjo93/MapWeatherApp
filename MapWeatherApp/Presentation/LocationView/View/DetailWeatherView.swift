@@ -94,8 +94,19 @@ struct DetailWeatherView: View {
                     VStack(alignment: .center, spacing: 8) {
                         Spacer().frame(height: forecast.temp.getTempHeight() * 2)
                         
-                        AsyncImage(url: forecast.imageUrl, scale: 2)
-                        
+                        ZStack {
+                            AsyncImage(url: forecast.imageUrl, scale: 2)
+                            if forecast.pop != 0.0 {
+                                HStack(spacing: 0) {
+                                    Image(systemName: "drop.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(.blue)
+                                    Text("\(forecast.pop.percentage)")
+                                        .font(.system(size: 10))
+                                }
+                                .padding(.top, 40)
+                            }
+                        }
                         Text(temperUnit ?
                              "\(forecast.temp.makeCelsius()) °" :
                              "\(forecast.temp.makeFahrenheit()) °")
@@ -194,6 +205,7 @@ struct DetailWeatherView: View {
                     
                     Button {
                         temperUnit.toggle()
+                        print(forecast)
                     } label: {
                         Text(temperUnit ? "°C" : "°F")
                             .font(.system(size: 30))
@@ -206,7 +218,6 @@ struct DetailWeatherView: View {
                     
                     Button(action: {
                         isSearching = true
-                        print(forecast)
                     }) {
                         Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
                             .font(.title3)
@@ -226,21 +237,36 @@ struct DetailWeatherView: View {
                     .font(.title.bold())
             }
             
-            VStack(alignment: .center, spacing: 10) {
+            HStack(alignment: .center, spacing: 32) {
                 Text(temperUnit ? "\(weather.temp.makeCelsius())°" : "\(weather.temp.makeFahrenheit())°")
                     .font(.system(size: 40))
                     .fontWeight(.semibold)
-                HStack(spacing: 30) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(temperUnit ?
                          "최고 : \(getTempMaxValue(forecast).makeCelsius())°" :
                          "최고 : \(getTempMaxValue(forecast).makeFahrenheit())°" )
+                    .font(.body)
                     Text(temperUnit ?
                          "최저 : \(getTempMinValue(forecast).makeCelsius())°" :
                          "최저 : \(getTempMinValue(forecast).makeFahrenheit())°")
+                    .font(.body)
                 }
-                .font(.system(size: 20))
             }
             .padding(.top, 3)
+            
+            HStack(spacing: 16) {
+                Text("상태: \(weather.description.textWithChangedColor())")
+                    .font(.callout)
+
+                Text("습도: \(weather.humidity.makeRounded()) %")
+                    .font(.callout)
+                Text("흐림: \(weather.cloud ?? 0)%")
+                    .font(.callout)
+                Text("강수: \(forecast[0].pop.percentage)")
+                    .font(.callout)
+            }
+            .padding(.top, 2)
+            .padding(.horizontal, 16)
         }
         .padding(.bottom, 10)
         .background {

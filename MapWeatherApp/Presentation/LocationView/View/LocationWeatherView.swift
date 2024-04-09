@@ -50,8 +50,6 @@ struct LocationWeatherView: View {
 }
 
 
-/// 데이터뷰 표시 추가하기
-///  배경 아이콘 색상 다시 설정하기
 /// LocaWeatherView.paging   성공하기
 // swiftDat로 나의 위치는 저장 안해도된다. 하지만 유저가 +를 통해 저장한 위 경도 값을 저장하고 , onappear을 통해 저장한 것을 불러오고 데이터 통신 후 View를 만들어 표시 -> 저장된 위 경도에 따라 api통신 후 인스턴스 만들기
 //didselec한 위경도를 이용해서 api통신, 그리고 api통신의 값이 변한것을 감지해서 변했다면 다음 뷰로 이동.(onchange)
