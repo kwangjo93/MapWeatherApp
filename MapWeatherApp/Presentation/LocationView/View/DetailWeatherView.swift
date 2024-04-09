@@ -51,7 +51,7 @@ struct DetailWeatherView: View {
                             todaysWeathersView()
                                 .padding(.bottom, 16)
                             
-                            sevenDaysWeatherView()
+                            sevenDaysWeatherView(size: size)
                                 .padding(.horizontal, 16)
                         } header: {
                             HeaderView(size, weather, forecast: forecast.forcasts)
@@ -123,7 +123,7 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func sevenDaysWeatherView() -> some View {
+    func sevenDaysWeatherView(size: CGSize) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .center) {
                 Spacer()
@@ -132,36 +132,45 @@ struct DetailWeatherView: View {
                     .fontWeight(.semibold)
                     .padding(.top)
             }
-            .padding(.horizontal, 25)
             
             ForEach(weatherOfDays.list, id: \.id) { weather in
-                DayWeatherView(weather)
+                DayWeatherView(weather, size: size)
                     .padding(.bottom, 5)
             }
         }
         .padding(.bottom, 16)
+        .padding(.horizontal, 24)
         .background(Color(.darkGray))
         .foregroundStyle(.white)
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
     
     @ViewBuilder
-    func DayWeatherView(_ weather: WeatherLists) -> some View {
+    func DayWeatherView(_ weather: WeatherLists, size: CGSize) -> some View {
         HStack(alignment: .center) {
             Text(weather.day)
                 .font(.body)
                 .fontWeight(.medium)
-            Spacer()
-            AsyncImage(url: weather.imageUrl, scale: 2)
-            Spacer()
+            ZStack {
+                AsyncImage(url: weather.imageUrl, scale: 2)
+                    .frame(width: size.width / 2.5)
+                if weather.pop != 0.0 {
+                    HStack(spacing: 0) {
+                        Image(systemName: "drop.fill")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.blue)
+                        Text("\(weather.pop.percentage)")
+                            .font(.system(size: 15))
+                    }
+                    .padding(.top, 30)
+                }
+            }
             Text(temperUnit ?
                  "\(weather.tempMin.makeCelsius())° / \(weather.tempMax.makeCelsius())°" :
                  "\(weather.tempMin.makeFahrenheit())° / \(weather.tempMax.makeFahrenheit())°")
-            
                 .font(.title3)
                 .fontWeight(.heavy)
         }
-        .padding(.horizontal, 20)
     }
     
     @ViewBuilder
@@ -382,7 +391,8 @@ struct DetailWeatherView: View {
                                                         day: "화요일",
                                                         tempMin: 15,
                                                         tempMax: 33,
-                                                        imageUrl: URL(string: "dd")!
+                                                        imageUrl: URL(string: "dd")!,
+                                                        pop: 0
                                                     )
                                                     ]
                                                   )

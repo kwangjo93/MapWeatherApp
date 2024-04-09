@@ -8,6 +8,10 @@
 import Foundation
 
 extension Double {
+    var percentage: String {
+        return "\(self * 100) %"
+    }
+    
     func makeCelsius() -> String {
         let argue = self - 273.15
         return String(format: "%.0f", arguments: [argue])

@@ -50,11 +50,7 @@ struct LocationWeatherView: View {
 }
 
 
-
-
-// 새로운 모델 만들기, -> 하나의 요일에 최대값 최저값을 구한 모델
-/// 날짜 오늘 - 내일 보여주기
-/// 5dayWeatherView UI 잡기
+/// 데이터뷰 표시 추가하기
 ///  배경 아이콘 색상 다시 설정하기
 /// LocaWeatherView.paging   성공하기
 // swiftDat로 나의 위치는 저장 안해도된다. 하지만 유저가 +를 통해 저장한 위 경도 값을 저장하고 , onappear을 통해 저장한 것을 불러오고 데이터 통신 후 View를 만들어 표시 -> 저장된 위 경도에 따라 api통신 후 인스턴스 만들기

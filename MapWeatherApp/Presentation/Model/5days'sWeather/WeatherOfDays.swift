@@ -17,4 +17,5 @@ struct WeatherLists: Identifiable {
     let tempMin: Double
     let tempMax: Double
     let imageUrl: URL
+    let pop: Double
 }
