@@ -14,17 +14,20 @@ struct DetailWeatherView: View {
     @State var isSearching: Bool = false
     @Binding var isSelect: Bool
     var forecast: PresentingForecast
+    var weatherOfDays: WeatherOfDays
     
     init(
         addAndSearch: AddAndSearch,
         isSelect: Binding<Bool>,
         weather: PresentingMap,
-        forecast: PresentingForecast
+        forecast: PresentingForecast,
+        weatherOfDays: WeatherOfDays
     ) {
         self.addAndSearch = addAndSearch
         _isSelect = isSelect
         self.weather = weather
         self.forecast = forecast
+        self.weatherOfDays = weatherOfDays
     }
     
     var body: some View {
@@ -131,7 +134,7 @@ struct DetailWeatherView: View {
             }
             .padding(.horizontal, 25)
             
-            ForEach(forecast.forcasts, id: \.id) { weather in
+            ForEach(weatherOfDays.list, id: \.id) { weather in
                 DayWeatherView(weather)
                     .padding(.bottom, 5)
             }
@@ -143,9 +146,9 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func DayWeatherView(_ weather: Weathers) -> some View {
+    func DayWeatherView(_ weather: WeatherLists) -> some View {
         HStack(alignment: .center) {
-            Text("오늘")
+            Text(weather.day)
                 .font(.body)
                 .fontWeight(.medium)
             Spacer()
@@ -191,6 +194,7 @@ struct DetailWeatherView: View {
                     
                     Button(action: {
                         isSearching = true
+                        print(forecast)
                     }) {
                         Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
                             .font(.title3)
@@ -373,6 +377,14 @@ struct DetailWeatherView: View {
                                                                                   imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
                                                                                  )
                                                    ]
+                                                  ), weatherOfDays: WeatherOfDays(
+                                                    list: [WeatherLists(
+                                                        day: "화요일",
+                                                        tempMin: 15,
+                                                        tempMax: 33,
+                                                        imageUrl: URL(string: "dd")!
+                                                    )
+                                                    ]
                                                   )
     )
 }

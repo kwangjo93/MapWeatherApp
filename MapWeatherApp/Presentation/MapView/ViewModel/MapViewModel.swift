@@ -12,9 +12,10 @@ class MapViewModel: ObservableObject {
     private let forecastUseCase: ForecastUsecase
     @Published private(set) var regionWeather: [PresentingMap] = []
     @Published private(set) var errorMessage: String = ""
+    @Published private(set) var weather: PresentingMap?
+    @Published private(set) var forecast: PresentingForecast?
+    @Published private(set) var weatherOfDay: WeatherOfDays?
     @Published var isUpdating = false
-    @Published var weather: PresentingMap?
-    @Published var forecast: PresentingForecast?
     
     init(
         weatherUseCase: WeatherUseCase,
@@ -106,6 +107,8 @@ extension MapViewModel {
                                     description: weather.description,
                                     imageUrl: weatherUseCase.loadUrl(imageId: weather.icon))
                 })
+                let weatherOfDays = presentingForecast.toWeatherDays()
+                self.weatherOfDay = weatherOfDays
                 self.forecast = presentingForecast
             } catch {
                 DispatchQueue.main.async {

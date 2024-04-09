@@ -39,4 +39,13 @@ extension Int {
         let formattedDate = dateFormatter.string(from: date)
         return formattedDate
     }
+    
+    var changedTimeWithDay: String {
+        let date = Date(timeIntervalSince1970: TimeInterval(self))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let formattedDate = dateFormatter.string(from: date)
+        return formattedDate
+    }
 }

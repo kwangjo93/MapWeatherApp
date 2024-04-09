@@ -24,11 +24,12 @@ struct LocationWeatherView: View {
     var body: some View {
         TabView {
             ForEach(viewModel.forecasts, id: \.id) { value in
-                if let weather = viewModel.weather {
+                if let weather = viewModel.weather, let weatherOfDay = viewModel.weatherOfDay {
                     DetailWeatherView(addAndSearch: .search,
                                       isSelect: $isSelec,
                                       weather: weather,
-                                      forecast: value)
+                                      forecast: value,
+                                      weatherOfDays: weatherOfDay)
                 }
             }
         }
@@ -51,7 +52,7 @@ struct LocationWeatherView: View {
 
 
 
-
+// 새로운 모델 만들기, -> 하나의 요일에 최대값 최저값을 구한 모델
 /// 날짜 오늘 - 내일 보여주기
 /// 5dayWeatherView UI 잡기
 ///  배경 아이콘 색상 다시 설정하기

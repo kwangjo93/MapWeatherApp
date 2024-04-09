@@ -12,6 +12,7 @@ final class LocationViewModel: ObservableObject {
     private let forecastUseCase: ForecastUsecase
     @Published private(set) var weather: PresentingMap?
     @Published private(set) var forecasts: [PresentingForecast] = []
+    @Published private(set) var weatherOfDay: WeatherOfDays?
     @Published private(set) var errorMessage: String = ""
     
     init(
@@ -70,6 +71,8 @@ final class LocationViewModel: ObservableObject {
                                     description: weather.description,
                                     imageUrl: weatherUseCase.loadUrl(imageId: weather.icon))
                 })
+                let weatherOfDays = presentingForecast.toWeatherDays()
+                self.weatherOfDay = weatherOfDays
                 self.forecasts.append(presentingForecast)
             } catch {
                 DispatchQueue.main.async {

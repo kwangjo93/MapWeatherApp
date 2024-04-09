@@ -62,12 +62,15 @@ struct MapView: View {
                 HeaderView()
             }
             .fullScreenCover(isPresented: $isSelect, content: {
-                if let weather = viewModel.weather, let forecast = viewModel.forecast {
+                if let weather = viewModel.weather,
+                   let forecast = viewModel.forecast,
+                   let weatherDays = viewModel.weatherOfDay{
                     DetailWeatherView(
                         addAndSearch: .none,
                         isSelect: $isSelect,
                         weather: weather,
-                        forecast: forecast
+                        forecast: forecast,
+                        weatherOfDays: weatherDays
                     )
                 }
                 })
