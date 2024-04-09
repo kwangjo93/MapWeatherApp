@@ -29,8 +29,9 @@ struct StaticMap: UIViewRepresentable {
                 longitudeDelta: 4.5
             )
            )
-           mapView.setRegion(region, animated: true)
+        mapView.setRegion(region, animated: true)
          mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
            return mapView
        }
        

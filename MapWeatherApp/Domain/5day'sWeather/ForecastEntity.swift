@@ -7,20 +7,21 @@
 
 import Foundation
 
-struct ForecastEntity {
+struct ForecastEntity: Identifiable {
+    let id: UUID = .init()
     let city: String
     let lat: Double
     let lon: Double
     let forcast: [Forecast]
 }
-struct Forecast {
+struct Forecast: Identifiable {
+    let id: UUID = .init()
     let dt: Int
     let clouds: Int
     let pop: Double
-    let weather: [Weathers]
-}
-
-struct Weathers {
+    let temp: Double
+    let tempMin: Double
+    let tempMax: Double
     let main: String
     let description: String
     let icon: String

@@ -12,11 +12,14 @@ import Combine
 import CoreLocation
 
 struct MapView: View {
+    var locationManager: CLLocationManager
+    
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var viewModel: MapViewModel
     @State private var selectedLat: Double = 0
     @State private var selectedLon: Double = 0
     @State private var isSelect: Bool = false
+    @State var temperUnit = true
     @State private var defaultRegion = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 35.9867229,
@@ -24,10 +27,13 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 4.5,
                                    longitudeDelta: 4.5)
         ))
-    @State var temperUnit = true
     
-    init(viewModel: MapViewModel) {
+    init(
+        viewModel: MapViewModel,
+        locationManager: CLLocationManager
+    ) {
         self.viewModel = viewModel
+        self.locationManager = locationManager
     }
     
     var body: some View {
@@ -55,15 +61,19 @@ struct MapView: View {
                 .ignoresSafeArea()
                 HeaderView()
             }
-            .navigationDestination(isPresented: $isSelect) {
-                if let weather = viewModel.weather {
+            .fullScreenCover(isPresented: $isSelect, content: {
+                if let weather = viewModel.weather,
+                   let forecast = viewModel.forecast,
+                   let weatherDays = viewModel.weatherOfDay{
                     DetailWeatherView(
                         addAndSearch: .none,
                         isSelect: $isSelect,
-                        weather: weather
+                        weather: weather,
+                        forecast: forecast,
+                        weatherOfDays: weatherDays
                     )
                 }
-            }
+                })
             .onAppear {
                 Task {
                     await askLocationAuthorization()
@@ -71,10 +81,12 @@ struct MapView: View {
             }
             .onChange(of: isSelect, { oldValue, newValue in
                 viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
+                viewModel.fetchForecast(lat: selectedLat, lon: selectedLon)
             })
             .task {
                 viewModel.fetchRegionWeather()
             }
+            
         }
     }
     
@@ -139,14 +151,13 @@ struct MapView: View {
             }
             
         } else {
-            Text("\(viewModel.regionWeather[0].dt.changedTime)")
+            Text("\(viewModel.regionWeather[0].dt.changedDate)")
                 .font(.title2)
                 .fontWeight(.semibold)
         }
     }
     
     func askLocationAuthorization() async {
-        let locationManager = CLLocationManager()
         let authorizationStatus = locationManager.authorizationStatus
         
         switch authorizationStatus {
@@ -173,11 +184,9 @@ struct MapView: View {
         viewModel: .init(
             weatherUseCase: .init(
                 repository: WeatherRepository()
+            ), forecastUseCase: .init(
+                repository: ForecastRepository()
             )
-        )
+        ), locationManager: .init()
     )
 }
-
-/// isSelect 값이 true가 되면 뷰 이동
-/// 네비게이션 스택 으로 화면 전환.
-/// 백 버튼 누르면 isSelect 값 false로

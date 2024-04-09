@@ -9,54 +9,47 @@ import SwiftUI
 
 struct LocationWeatherView: View {
     @ObservedObject var viewModel: LocationViewModel
+    @Binding private var userLatitude: Double
+    @Binding private var userLongitude: Double
+    @State private var isSelec: Bool = false
     
-    init(viewModel: LocationViewModel) {
+    init(viewModel: LocationViewModel,
+         userLatitude: Binding<Double>,
+         userLongitude: Binding<Double>) {
         self.viewModel = viewModel
+        _userLatitude = userLatitude
+        _userLongitude = userLongitude
     }
     
     var body: some View {
-        DetailWeatherView(addAndSearch: .add,
-                          isSelect: .constant(true),
-                          weather: PresentingMap(title: "광주",
-                                                 lat: 33,
-                                                 lon: 127,
-                                                 description: "맑음",
-                                                 imageUrl: URL(string: "dddd")!,
-                                                 dt: 1702392,
-                                                 temp: 35,
-                                                 tempMin: 35,
-                                                 tempMax: 12,
-                                                 humidity: 24,
-                                                 cloud: 4,
-                                                 sunrise: 173234,
-                                                 sunset: 13266)
-        )
-        //        TabView {
-        //            ForEach((0...3), id: \.self) { index in
-        //                Text("\(index)")
-        //            }
-        //        }
-        //        .tabViewStyle(.page)
-        //    }
+        TabView {
+            ForEach(viewModel.forecasts, id: \.id) { value in
+                if let weather = viewModel.weather, let weatherOfDay = viewModel.weatherOfDay {
+                    DetailWeatherView(addAndSearch: .search,
+                                      isSelect: $isSelec,
+                                      weather: weather,
+                                      forecast: value,
+                                      weatherOfDays: weatherOfDay)
+                }
+            }
+        }
+        .tabViewStyle(.page)
+        .task {
+            viewModel.fetchForecast(lat: userLatitude, lon: userLongitude)
+        }
     }
 }
-
+    
 #Preview {
     LocationWeatherView(
         viewModel: .init(
-            weatherUseCase: .init(
-                repository: WeatherRepository()
-            ), forecastUseCase: .init(
-                repository: ForecastRepository()
-            )
-        )
-    )
+            weatherUseCase: .init(repository: WeatherRepository()), forecastUseCase: .init(repository: ForecastRepository())
+    ),
+        userLatitude: .constant(0),
+        userLongitude: .constant(0))
 }
 
-// 서치 버튼 클릭 시 서치 화면으로 이동
-// 배경 아이콘 색상 다시 설정하기
-//weather 데이터를 넘겨주었다면, 위 경도만 넘겨 주어서 해당 뷰에서 api통신 후 데이터 표시.
-//MapView에서 이동 시 백버튼클릭하면 값 false로 변경하기
-// 현재 나의 위체에 대한 데이터를 만들고  [] 배열 만들어서 tabViewStyle paging
-// swiftDat로 나의 위치에 대한 위 경도, 그리고 다른 데이터들의 위 경도 저장
-// 저장된 위 경도에 따라 api통신 후 인스턴스 만들기
+
+/// LocaWeatherView.paging   성공하기
+// swiftDat로 나의 위치는 저장 안해도된다. 하지만 유저가 +를 통해 저장한 위 경도 값을 저장하고 , onappear을 통해 저장한 것을 불러오고 데이터 통신 후 View를 만들어 표시 -> 저장된 위 경도에 따라 api통신 후 인스턴스 만들기
+//didselec한 위경도를 이용해서 api통신, 그리고 api통신의 값이 변한것을 감지해서 변했다면 다음 뷰로 이동.(onchange)

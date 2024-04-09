@@ -11,16 +11,23 @@ struct DetailWeatherView: View {
     @State var temperUnit = true
     @State var addAndSearch: AddAndSearch
     @State var weather: PresentingMap
+    @State var isSearching: Bool = false
     @Binding var isSelect: Bool
-
+    var forecast: PresentingForecast
+    var weatherOfDays: WeatherOfDays
+    
     init(
         addAndSearch: AddAndSearch,
         isSelect: Binding<Bool>,
-        weather: PresentingMap
+        weather: PresentingMap,
+        forecast: PresentingForecast,
+        weatherOfDays: WeatherOfDays
     ) {
         self.addAndSearch = addAndSearch
         _isSelect = isSelect
         self.weather = weather
+        self.forecast = forecast
+        self.weatherOfDays = weatherOfDays
     }
     
     var body: some View {
@@ -44,10 +51,10 @@ struct DetailWeatherView: View {
                             todaysWeathersView()
                                 .padding(.bottom, 16)
                             
-                            sevenDaysWeatherView()
+                            sevenDaysWeatherView(size: size)
                                 .padding(.horizontal, 16)
                         } header: {
-                            HeaderView(size, weather)
+                            HeaderView(size, weather, forecast: forecast.forcasts)
                         }
                     }
                 }
@@ -72,7 +79,7 @@ struct DetailWeatherView: View {
                 Image(systemName: "sunset")
                     .font(.system(size: 25))
                     .foregroundStyle(.orange)
-                Text("\(weather.sunrise.sunsetTime)")
+                Text("\(weather.sunset.sunsetTime)")
                     .font(.body)
                     .fontWeight(.light)
             }
@@ -83,23 +90,34 @@ struct DetailWeatherView: View {
     func todaysWeathersView() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .bottom, spacing: 10) {
-                ForEach(0...20, id: \.self) { weather in
+                ForEach(forecast.forcasts, id: \.id) { forecast in
                     VStack(alignment: .center, spacing: 8) {
-                        Spacer()
-                        Spacer()
+                        Spacer().frame(height: forecast.temp.getTempHeight() * 2)
                         
-                        Image(systemName: "person")
-                            .font(.title2)
-                        
-                        Text("\(weather) °")
+                        ZStack {
+                            AsyncImage(url: forecast.imageUrl, scale: 2)
+                            if forecast.pop != 0.0 {
+                                HStack(spacing: 0) {
+                                    Image(systemName: "drop.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(.blue)
+                                    Text("\(forecast.pop.percentage)")
+                                        .font(.system(size: 10))
+                                }
+                                .padding(.top, 40)
+                            }
+                        }
+                        Text(temperUnit ?
+                             "\(forecast.temp.makeCelsius()) °" :
+                             "\(forecast.temp.makeFahrenheit()) °")
                             .font(.headline)
                         
-                        Text("15 : 00")
+                        Text("\(forecast.dt.changedTime)")
                             .font(.caption)
-                        Spacer()
+                        Spacer().frame(height: 20)
                     }
                     .padding(8)
-                    .frame(height: 120 + CGFloat(weather * 5))
+                    .frame(height: 120 + (forecast.temp.getTempHeight() * 2))
                     .background(Color(.darkGray))
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
@@ -116,7 +134,7 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func sevenDaysWeatherView() -> some View {
+    func sevenDaysWeatherView(size: CGSize) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .center) {
                 Spacer()
@@ -124,11 +142,11 @@ struct DetailWeatherView: View {
                     .font(.body)
                     .fontWeight(.semibold)
                     .padding(.top)
+                    .padding(.horizontal, 32)
             }
-            .padding(.horizontal, 25)
             
-            ForEach(0...10, id: \.self) { data in
-                DayWeatherView()
+            ForEach(weatherOfDays.list, id: \.id) { weather in
+                DayWeatherView(weather, size: size)
                     .padding(.bottom, 5)
             }
         }
@@ -139,98 +157,133 @@ struct DetailWeatherView: View {
     }
     
     @ViewBuilder
-    func DayWeatherView() -> some View {
+    func DayWeatherView(_ weather: WeatherLists, size: CGSize) -> some View {
         HStack(alignment: .center) {
-            Text("오늘")
+            Text(weather.day)
                 .font(.body)
                 .fontWeight(.medium)
-            Spacer()
-            Image(systemName: "person")
-                .font(.system(size: 25))
-            Spacer()
-            Text("10° / 21°")
+            ZStack {
+                AsyncImage(url: weather.imageUrl, scale: 2)
+                    .frame(width: size.width / 2.5)
+                if weather.pop != 0.0 {
+                    HStack(spacing: 0) {
+                        Image(systemName: "drop.fill")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.blue)
+                        Text("\(weather.pop.percentage)")
+                            .font(.system(size: 15))
+                    }
+                    .padding(.top, 30)
+                }
+            }
+            VStack(alignment: .center) {
+                Text(temperUnit ?
+                     "\(weather.tempMin.makeCelsius())° / \(weather.tempMax.makeCelsius())°" :
+                        "\(weather.tempMin.makeFahrenheit())° / \(weather.tempMax.makeFahrenheit())°")
                 .font(.title3)
                 .fontWeight(.heavy)
+            }
         }
-        .padding(.horizontal, 20)
+        .padding(.leading, 32)
     }
     
     @ViewBuilder
-    func HeaderView(_ size: CGSize, _ weather: PresentingMap) -> some View {
-        HStack(spacing: 10) {
-            VStack {
-                Button {
-                    temperUnit.toggle()
-                    print(weather)
-                } label: {
-                    Text(temperUnit ? "°C" : "°F")
-                        .font(.system(size: 25))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(temperUnit ? .blue : .red)
+    func HeaderView(_ size: CGSize, _ weather: PresentingMap, forecast: [Weathers]) -> some View {
+        VStack {
+            VStack(spacing: 0) {
+                HStack() {
+                    if isSelect {
+                        Button {
+                            isSelect = false
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
+                                .font(.system(size: 30))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.black)
+                        }
+                    }
+                    
+                    Button {
+                        temperUnit.toggle()
+                        print(forecast)
+                    } label: {
+                        Text(temperUnit ? "°C" : "°F")
+                            .font(.system(size: 30))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(temperUnit ? .blue : .red)
+                    }
+                    .padding(.leading, 16)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        isSearching = true
+                    }) {
+                        Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(width: 30, height: 30)
+                            .background(Color.black.gradient, in: .circle)
+                            .contentShape(.circle)
+                    }
+                    .fullScreenCover(isPresented: $isSearching) {
+                        SearchBar(isSearching: $isSearching)
+                    }
                 }
-                .padding(.leading, 16)
+                .padding(.horizontal, 20)
                 
-                Spacer()
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .center, spacing: 10) {
                 Text(addAndSearch == .none ? weather.title : "dd")
                     .font(.title.bold())
+            }
+            
+            HStack(alignment: .center, spacing: 32) {
                 Text(temperUnit ? "\(weather.temp.makeCelsius())°" : "\(weather.temp.makeFahrenheit())°")
                     .font(.system(size: 40))
                     .fontWeight(.semibold)
-                HStack(spacing: 30) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(temperUnit ?
-                         "최고 : \(weather.tempMax.makeCelsius())°" :
-                         "최고 : \(weather.tempMax.makeFahrenheit())°" )
+                         "최고 : \(getTempMaxValue(forecast).makeCelsius())°" :
+                         "최고 : \(getTempMaxValue(forecast).makeFahrenheit())°" )
+                    .font(.body)
                     Text(temperUnit ?
-                         "최저 : \(weather.tempMin.makeCelsius())°" :
-                         "최저 : \(weather.tempMin.makeFahrenheit())°")
+                         "최저 : \(getTempMinValue(forecast).makeCelsius())°" :
+                         "최저 : \(getTempMinValue(forecast).makeFahrenheit())°")
+                    .font(.body)
                 }
-                .font(.system(size: 20))
             }
-            .visualEffect { content, geometryProxy in
-                content
-                    .scaleEffect(headerScale(size, proxy: geometryProxy), anchor: .topLeading)
+            .padding(.top, 3)
+            
+            HStack(spacing: 16) {
+                Text("상태: \(weather.description.textWithChangedColor())")
+                    .font(.callout)
+
+                Text("습도: \(weather.humidity.makeRounded()) %")
+                    .font(.callout)
+                Text("흐림: \(weather.cloud ?? 0)%")
+                    .font(.callout)
+                Text("강수: \(forecast[0].pop.percentage)")
+                    .font(.callout)
             }
-            
-            Spacer(minLength: 0)
-            
-            VStack(alignment: .leading, spacing: 5, content: {
-                NavigationLink {
-                    
-                } label: {
-                    Image(systemName: addAndSearch == .add ? "plus" : "magnifyingglass")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(width: 25, height: 25)
-                        .background(Color.gray.gradient, in: .circle)
-                        .contentShape(.circle)
-                }
-                Spacer()
-            })
-            .padding(.trailing, 16)
+            .padding(.top, 2)
+            .padding(.horizontal, 16)
         }
         .padding(.bottom, 10)
         .background {
             VStack(spacing: 0) {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    
+                
                 Divider()
             }
             .visualEffect { content, geometryProxy in
                 content
                     .opacity(headerBGOpacity(geometryProxy))
             }
-
             .padding(.top, -(topSafeArea.top + 15))
         }
     }
-
+    
     func headerBGOpacity(_ proxy: GeometryProxy) -> CGFloat {
         let minY = proxy.frame(in: .scrollView).minY + topSafeArea.top
         return CGFloat(minY > 0 ? 0 : (-minY / 15))
@@ -244,10 +297,36 @@ struct DetailWeatherView: View {
         let scale = (min(max(progress, 0), 1)) * 0.6
         return 1 + scale
     }
+    
+    func getTempMaxValue(_ values: [Weathers]) -> Double {
+        guard let firstWeather = values.first else {
+               fatalError("값이 비어 있습니다.")
+           }
+        var maxTemp = firstWeather.tempMax
+        for weather in values {
+            if weather.tempMax > maxTemp {
+                maxTemp = weather.tempMax
+            }
+        }
+        return maxTemp
+    }
+    
+    func getTempMinValue(_ values: [Weathers]) -> Double {
+        guard let firstWeather = values.first else {
+               fatalError("값이 비어 있습니다.")
+           }
+        var minTemp = firstWeather.tempMin
+        for weather in values {
+            if weather.tempMin < minTemp {
+                minTemp = weather.tempMin
+            }
+        }
+        return minTemp
+    }
 }
 
 #Preview {
-    DetailWeatherView(addAndSearch: .none,
+    DetailWeatherView(addAndSearch: .search,
                       isSelect: .constant(true),
                       weather: PresentingMap(title: "광주",
                                              lat: 33,
@@ -256,11 +335,95 @@ struct DetailWeatherView: View {
                                              imageUrl: URL(string: "dddd")!,
                                              dt: 1702392,
                                              temp: 35,
-                                             tempMin: 35,
-                                             tempMax: 12,
+                                             tempMin: 15,
+                                             tempMax: 25,
                                              humidity: 24,
                                              cloud: 4,
                                              sunrise: 173234,
-                                             sunset: 13266)
+                                             sunset: 13266),
+                      forecast: PresentingForecast(city: "인천",
+                                                   lat: 35.77,
+                                                   lon: 128.66,
+                                                   forcasts: [Weathers(dt: 1702932,
+                                                                       clouds: 0,
+                                                                       pop: 1,
+                                                                       temp: 20,
+                                                                       tempMin: 15,
+                                                                       tempMax: 34,
+                                                                       mainText: "main",
+                                                                       description: "descip",
+                                                                       imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                      ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 11,
+                                                                                  tempMin: 13,
+                                                                                  tempMax: 25,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 27,
+                                                                                  tempMin: 11,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 25,
+                                                                                  tempMin: 18,
+                                                                                  tempMax: 27,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 ),
+                                                              Weathers(dt: 1702932,
+                                                                                  clouds: 0,
+                                                                                  pop: 1,
+                                                                                  temp: 20,
+                                                                                  tempMin: 15,
+                                                                                  tempMax: 34,
+                                                                                  mainText: "main",
+                                                                                  description: "descip",
+                                                                                  imageUrl: URL(string: "https://openweathermap.org/img/wn/04d@2x.png")!
+                                                                                 )
+                                                   ]
+                                                  ), weatherOfDays: WeatherOfDays(
+                                                    list: [WeatherLists(
+                                                        day: "화요일",
+                                                        tempMin: 15,
+                                                        tempMax: 33,
+                                                        imageUrl: URL(string: "dd")!,
+                                                        pop: 0
+                                                    )
+                                                    ]
+                                                  )
     )
 }

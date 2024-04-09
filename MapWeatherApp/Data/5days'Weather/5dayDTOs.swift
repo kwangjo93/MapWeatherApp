@@ -106,20 +106,20 @@ enum MainEnum: String, Codable {
 extension ForecastResponse {
     func toEntity() -> ForecastEntity {
         let forcasts = self.list.map { list -> Forecast in
-            let weathers = list.weather.map { weather -> Weathers in
-                return Weathers(main: weather.main.rawValue,
-                                description: weather.description,
-                                icon: weather.icon)
-            }
             return Forecast(dt: list.dt,
-                           clouds: list.clouds.all,
-                           pop: list.pop,
-                           weather: weathers)
+                            clouds: list.clouds.all,
+                            pop: list.pop,
+                            temp: list.main.tempMax,
+                            tempMin: list.main.temp,
+                            tempMax: list.main.tempMin,
+                            main: list.weather[0].main.rawValue,
+                            description: list.weather[0].description,
+                            icon: list.weather[0].icon)
         }
         
-        return ForecastEntity(city: self.city.name,
-                              lat: self.city.coord.lat,
-                              lon: self.city.coord.lon,
+        return ForecastEntity(city: city.name,
+                              lat: city.coord.lat,
+                              lon: city.coord.lon,
                               forcast: forcasts)
     }
 }
