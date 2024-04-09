@@ -131,6 +131,7 @@ struct DetailWeatherView: View {
                     .font(.body)
                     .fontWeight(.semibold)
                     .padding(.top)
+                    .padding(.horizontal, 32)
             }
             
             ForEach(weatherOfDays.list, id: \.id) { weather in
@@ -139,7 +140,6 @@ struct DetailWeatherView: View {
             }
         }
         .padding(.bottom, 16)
-        .padding(.horizontal, 24)
         .background(Color(.darkGray))
         .foregroundStyle(.white)
         .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -165,12 +165,15 @@ struct DetailWeatherView: View {
                     .padding(.top, 30)
                 }
             }
-            Text(temperUnit ?
-                 "\(weather.tempMin.makeCelsius())° / \(weather.tempMax.makeCelsius())°" :
-                 "\(weather.tempMin.makeFahrenheit())° / \(weather.tempMax.makeFahrenheit())°")
+            VStack(alignment: .center) {
+                Text(temperUnit ?
+                     "\(weather.tempMin.makeCelsius())° / \(weather.tempMax.makeCelsius())°" :
+                        "\(weather.tempMin.makeFahrenheit())° / \(weather.tempMax.makeFahrenheit())°")
                 .font(.title3)
                 .fontWeight(.heavy)
+            }
         }
+        .padding(.leading, 32)
     }
     
     @ViewBuilder

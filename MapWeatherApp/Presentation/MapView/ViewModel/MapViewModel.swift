@@ -26,8 +26,8 @@ class MapViewModel: ObservableObject {
     }
     
     private let regionLatAndLon: [RegionModel] = [
-        RegionModel(title: "인천", lat: 37.5088, lon: 126.7219),
-        RegionModel(title: "서울", lat: 37.5311, lon: 126.9814),
+        RegionModel(title: "인천", lat: 37.469221, lon: 126.373234),
+        RegionModel(title: "서울", lat: 37.715133, lon: 127.269311),
         RegionModel(title: "춘천", lat: 37.8816, lon: 127.7291),
         RegionModel(title: "강릉", lat: 37.7510, lon: 128.8764),
         RegionModel(title: "아산", lat: 36.7923, lon: 127.0039),

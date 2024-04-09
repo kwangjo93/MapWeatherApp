@@ -17,7 +17,7 @@ struct MapAnnotation: Identifiable {
 
  var annotationItems = [
     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 37.469221, longitude: 126.373234), title: "인천"),
-    MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 37.6034, longitude: 127.1396), title: "서울"),
+    MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 37.715133, longitude: 127.269311), title: "서울"),
     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 37.8813153, longitude: 127.8299707), title: "춘천"),
     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 37.751853, longitude: 128.8760574), title: "강릉"),
     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: 36.789796, longitude: 127.0018494), title: "아산"),
